@@ -18,11 +18,19 @@ class Author extends Model
      */
     public $timestamps = false;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'first_name',
         'last_name',
         'patronymic',
     ];
+
+    public function getFullName(): string
+    {
+        return sprintf("%s %s %s", $this->first_name, $this->last_name, $this->patronymic);
+    }
 
     public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
