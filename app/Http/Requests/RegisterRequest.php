@@ -28,9 +28,10 @@ class RegisterRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'unique:users', 'confirmed', Password::min(8)
+            'password' => ['required', 'unique:users', Password::min(8)
                 ->letters()
-                ->numbers()],
+                ->numbers()
+            ],
         ];
     }
 }

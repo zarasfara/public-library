@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\StoreAvatarAction;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Models\User;
 use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
     private UserServiceInterface $userService;
 
@@ -40,5 +43,19 @@ class AuthController extends Controller
         Auth::login($user);
 
         return to_route('dashboard');
+    }
+
+    public function updateProfile(UpdateProfileRequest $request, StoreAvatarAction $storeAvatarAction): \Illuminate\Http\RedirectResponse
+    {
+        $data = $request->validated();
+
+        $data['avatar'] = $storeAvatarAction($request->file('avatar'), 'avatars', );
+
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->update($data);
+
+        return redirect()->back();
     }
 }

@@ -40,4 +40,5 @@ Route::post('/logout', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::view('dashboard', 'pages.dashboard')->name('dashboard');
+    Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
 });

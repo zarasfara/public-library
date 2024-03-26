@@ -35,6 +35,7 @@
             @endif
             <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Войти</button>
         </form>
+        <p class="mt-3">Нет аккаунта? <a href="{{ route('register') }}">Создать</a></p>
     </main>
 </div>
 
