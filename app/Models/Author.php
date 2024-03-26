@@ -18,6 +18,9 @@ class Author extends Model
      */
     public $timestamps = false;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'first_name',
         'last_name',

@@ -18,8 +18,11 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
-            //
+            'title' => $this->faker->sentence,
+            'available' => $this->faker->numberBetween(1, 10),
+            'description' => $this->faker->paragraph,
         ];
     }
 }
