@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'unique:users', Password::min(8)
                 ->letters()
-                ->numbers()
+                ->numbers(),
             ],
         ];
     }

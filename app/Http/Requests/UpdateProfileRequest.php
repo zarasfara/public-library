@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -32,9 +34,9 @@ class UpdateProfileRequest extends FormRequest
             'password' => [
                 'exclude_if:password,null',
                 Password::min(8)
-                ->letters()
-                ->numbers(),
-            ]
+                    ->letters()
+                    ->numbers(),
+            ],
         ];
     }
 }

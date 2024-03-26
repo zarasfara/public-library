@@ -16,9 +16,9 @@ final class StoreAvatarAction
      *
      * Метод сохраняет файл и возвращает его путь.
      *
-     * @param  UploadedFile  $file Изображение, которое нужно сохранить.
-     * @param  string  $path Путь сохранения.
-     * @param  string  $disk Диск, куда нужно сохранить.
+     * @param  UploadedFile  $file  Изображение, которое нужно сохранить.
+     * @param  string  $path  Путь сохранения.
+     * @param  string  $disk  Диск, куда нужно сохранить.
      * @return string Строка с путем до файла.
      */
     public function __invoke(UploadedFile $file, string $path, string $disk = 'public'): string
