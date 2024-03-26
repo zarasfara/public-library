@@ -31,7 +31,6 @@ Route::prefix('register')->group(function () {
     Route::post('/', [AuthController::class, 'signUp'])->name('register');
 });
 
-
 Route::post('/logout', function () {
     Auth::logout();
 

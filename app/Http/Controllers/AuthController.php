@@ -29,7 +29,7 @@ final class AuthController extends Controller
             return to_route('dashboard')->with('success', 'Вы успешно вошли в систему.');
         } else {
             return back()->withErrors([
-                'password' => 'Неверный адрес электронной почты или пароль.'
+                'password' => 'Неверный адрес электронной почты или пароль.',
             ]);
         }
     }
@@ -49,7 +49,7 @@ final class AuthController extends Controller
     {
         $data = $request->validated();
 
-        $data['avatar'] = $storeAvatarAction($request->file('avatar'), 'avatars', );
+        $data['avatar'] = $storeAvatarAction($request->file('avatar'), 'avatars');
 
         /** @var User $user */
         $user = Auth::user();
