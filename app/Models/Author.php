@@ -29,7 +29,7 @@ class Author extends Model
 
     public function getFullName(): string
     {
-        return sprintf("%s %s %s", $this->first_name, $this->last_name, $this->patronymic);
+        return sprintf('%s %s %s', $this->first_name, $this->last_name, $this->patronymic);
     }
 
     public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
