@@ -27,6 +27,11 @@ class Author extends Model
         'patronymic',
     ];
 
+    public function getFullName(): string
+    {
+        return sprintf("%s %s %s", $this->first_name, $this->last_name, $this->patronymic);
+    }
+
     public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Book::class);

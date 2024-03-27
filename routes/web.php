@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages.index');
+    $books = \App\Models\Book::all();
+    return view('pages.index', compact('books'));
 })->name('home');
 
 Route::prefix('login')->group(function () {
