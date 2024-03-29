@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Services\Interfaces\BookServiceInterface;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
