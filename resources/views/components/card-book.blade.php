@@ -1,4 +1,9 @@
-@use('\Illuminate\Support\Str')
+@php
+    use Illuminate\Support\Str;
+    use App\Models\Book;
+
+    /* @var Book $book */
+@endphp
 
 <div class="card d-flex h-100">
     <img src="https://placehold.co/600x400" class="card-img-top " alt="...">
