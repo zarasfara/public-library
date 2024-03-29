@@ -39,6 +39,7 @@ final class AuthController extends Controller
         $credentials = $request->validated();
 
         $user = $this->userService->create($credentials);
+        $user->toArray();
 
         Auth::login($user);
 
