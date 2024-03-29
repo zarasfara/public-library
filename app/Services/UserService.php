@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\Interfaces\UserServiceInterface;
 
-class UserService implements UserServiceInterface
+final readonly class UserService implements UserServiceInterface
 {
     private UserRepositoryInterface $userRepository;
 

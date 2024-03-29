@@ -17,10 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $books = \App\Models\Book::all();
-    return view('pages.index', compact('books'));
-})->name('home');
+Route::get('/', [\App\Http\Controllers\PageController::class, 'index'])->name('home');
 
 Route::prefix('login')->group(function () {
     Route::view('/', 'pages.login')->name('login.form');
