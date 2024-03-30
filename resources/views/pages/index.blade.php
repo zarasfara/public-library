@@ -14,12 +14,10 @@
             </div>
             <div class="mb-3">
                 <label for="genre" class="form-label">Жанр</label>
-                <select class="form-select" id="genre" name="genre">
-                    <option value="">Выберите жанр</option>
-                    <option value="Фантастика">Фантастика</option>
-                    <option value="Роман">Роман</option>
-                    <option value="Детектив">Детектив</option>
-                    <option value="Приключения">Приключения</option>
+                <select class="form-select" id="genre" name="genres[]" multiple>
+                    @foreach(\App\Models\Genre::all() as $genre)
+                        <option value="{{$genre->id}}">{{$genre->name}}</option>
+                    @endforeach
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Применить фильтр</button>

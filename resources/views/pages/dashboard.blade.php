@@ -10,7 +10,7 @@
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Фото профиля</span>
             </h4>
-            <img src="{{asset('storage/'.Auth::user()->avatar)}}" alt="profile-photo">
+            <img src="{{ Auth::user()->getAvatarUrl() }}" alt="profile-photo" style="max-width: 100%;">
         </div>
         <div class="col-md-7 col-lg-8">
             <h2>Личные данные</h2>
