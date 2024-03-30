@@ -10,6 +10,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Services\Interfaces\UserServiceInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 final class AuthController extends Controller
@@ -21,20 +22,20 @@ final class AuthController extends Controller
         $this->userService = $userService;
     }
 
-    public function signIn(LoginRequest $request): \Illuminate\Http\RedirectResponse
+    public function signIn(LoginRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
-            return to_route('dashboard')->with('success', 'Вы успешно вошли в систему.');
+            return to_route('dashboard')->with('success', __('messages.success_login'));
         } else {
             return back()->withErrors([
-                'password' => 'Неверный адрес электронной почты или пароль.',
+                'error' => __('messages.incorrect_credentials'),
             ]);
         }
     }
 
-    public function signUp(RegisterRequest $request): \Illuminate\Http\RedirectResponse
+    public function signUp(RegisterRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
 
@@ -46,7 +47,7 @@ final class AuthController extends Controller
         return to_route('dashboard');
     }
 
-    public function updateProfile(UpdateProfileRequest $request, StoreAvatarAction $storeAvatarAction): \Illuminate\Http\RedirectResponse
+    public function updateProfile(UpdateProfileRequest $request, StoreAvatarAction $storeAvatarAction): RedirectResponse
     {
         $data = $request->validated();
 
