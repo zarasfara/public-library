@@ -9,5 +9,4 @@ enum RoleEnum: string
     case LIBRARIAN = 'librarian';
     case ADMINISTRATOR = 'administrator';
     case SECRETARY = 'secretary';
-
 }
