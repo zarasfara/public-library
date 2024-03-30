@@ -29,6 +29,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  *
+ * @property string $image
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereImage($value)
+ *
  * @mixin \Eloquent
  */
 final class Book extends Model
