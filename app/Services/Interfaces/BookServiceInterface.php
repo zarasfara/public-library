@@ -6,5 +6,5 @@ namespace App\Services\Interfaces;
 
 interface BookServiceInterface
 {
-    public function getByQuery(array $filterParams): \Illuminate\Database\Eloquent\Collection;
+    public function getByQuery(array $filters): \Illuminate\Database\Eloquent\Collection;
 }
