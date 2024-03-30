@@ -23,6 +23,7 @@ class BookFactory extends Factory
             'title' => $this->faker->sentence,
             'available' => $this->faker->numberBetween(1, 10),
             'description' => $this->faker->paragraph,
+            'image' => $this->faker->imageUrl(600, 400),
         ];
     }
 }
