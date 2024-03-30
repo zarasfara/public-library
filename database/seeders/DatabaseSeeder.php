@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(GenreSeeder::class);
+
         Author::factory(10)->has(
             Book::factory()
                 ->count(10)
@@ -25,5 +27,7 @@ class DatabaseSeeder extends Seeder
         $librarian = Role::create(['name' => RoleEnum::LIBRARIAN]);
         $administrator = Role::create(['name' => RoleEnum::ADMINISTRATOR]);
         $secretary = Role::create(['name' => RoleEnum::SECRETARY]);
+
+        $this->call(BookGenreSeeder::class);
     }
 }
