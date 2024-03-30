@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Models\Book;
 use App\Repositories\Interfaces\BookRepositoryInterface;
-use Illuminate\Support\Facades\Schema;
 
 final readonly class BookRepository implements BookRepositoryInterface
 {
@@ -15,10 +14,14 @@ final readonly class BookRepository implements BookRepositoryInterface
         $booksQuery = Book::query();
 
         foreach ($filterParams as $key => $value) {
-            if (($key === 'title' || $key === 'author') && Schema::hasColumn('books', $key)) {
+            if ($key === 'title' || $key === 'author') {
                 $booksQuery->where($key, 'like', '%'.$value.'%');
-            } elseif (Schema::hasColumn('books', $key)) {
-                $booksQuery->where($key, $value);
+            } elseif ($key === 'genres') {
+                if (! empty($value)) {
+                    $booksQuery->whereHas('genres', static function ($query) use ($value) {
+                        $query->whereIn('id', $value);
+                    });
+                }
             }
         }
 

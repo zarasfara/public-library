@@ -87,4 +87,9 @@ final class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getAvatarUrl(): string
+    {
+        return asset('storage/'. $this->avatar);
+    }
 }
