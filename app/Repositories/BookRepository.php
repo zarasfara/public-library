@@ -19,11 +19,7 @@ final readonly class BookRepository implements BookRepositoryInterface
             },
             'author' => function ($query, $value) {
                 $query->whereHas('author', function ($query) use ($value) {
-                    $query->where(function ($query) use ($value) {
-                        $query->where('first_name', 'like', '%' . $value . '%')
-                            ->orWhere('last_name', 'like', '%' . $value . '%')
-                            ->orWhere('patronymic', 'like', '%' . $value . '%');
-                    });
+                    $query->whereRaw("CONCAT_WS(' ', first_name, last_name, patronymic) LIKE ?", ['%'.$value.'%']);
                 });
             },
             'genres' => function ($query, $value) {
