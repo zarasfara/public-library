@@ -17,6 +17,12 @@ final class PageController extends Controller
     ) {
     }
 
+    /**
+     * Отображает страницу со списком книг.
+     *
+     * @param  Request  $request  Запрос на отображение страницы.
+     * @return View Представление страницы со списком книг.
+     */
     public function index(Request $request): View
     {
         $filterParams = $request->query();

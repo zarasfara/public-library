@@ -10,7 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckUserRole
+/**
+ * Посредник для проверки роли пользователя.
+ *
+ * Этот посредник выполняет проверку роли пользователя перед выполнением
+ * определенных действий. Если пользователь имеет одну из указанных ролей
+ * (администратор, библиотекарь, секретарь), то запрос продолжается,
+ * в противном случае возвращается ошибка доступа.
+ */
+final class CheckUserRole
 {
     /**
      * Handle an incoming request.

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,52 +12,57 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string|null $avatar
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property mixed $password
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
- * @property-read int|null $tokens_count
+ * Модель пользователя.
  *
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * Этот класс представляет собой модель пользователя в системе. Он расширяет
+ * стандартную модель Authenticatable для аутентификации и имеет поддержку
+ * ролей и разрешений с использованием пакета Spatie/Permission. Также он
+ * предоставляет метод для получения URL аватара пользователя.
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
- * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
- * @property-read int|null $roles_count
+ * @property int $id Идентификатор пользователя.
+ * @property string $name Имя пользователя.
+ * @property string $email Электронная почта пользователя.
+ * @property string|null $avatar Аватар пользователя.
+ * @property \Illuminate\Support\Carbon|null $email_verified_at Время подтверждения адреса электронной почты.
+ * @property mixed $password Пароль пользователя.
+ * @property string|null $remember_token Токен для "запоминания" пользователя.
+ * @property \Illuminate\Support\Carbon|null $created_at Дата и время создания записи.
+ * @property \Illuminate\Support\Carbon|null $updated_at Дата и время последнего обновления записи.
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications Коллекция уведомлений пользователя.
+ * @property-read int|null $notifications_count Количество уведомлений пользователя.
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens Коллекция токенов пользователя.
+ * @property-read int|null $tokens_count Количество токенов пользователя.
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions Коллекция разрешений пользователя.
+ * @property-read int|null $permissions_count Количество разрешений пользователя.
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles Коллекция ролей пользователя.
+ * @property-read int|null $roles_count Количество ролей пользователя.
  *
- * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = []) Создать новый экземпляр фабрики модели для тестирования.
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery() Создать новый экземпляр запроса модели.
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery() Создать новый экземпляр запроса модели.
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions, $without = false) Поиск пользователей по разрешениям.
+ * @method static \Illuminate\Database\Eloquent\Builder|User query() Создать новый экземпляр запроса модели.
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false) Поиск пользователей по ролям.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value) Найти пользователя по аватару.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value) Найти пользователя по дате создания.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value) Найти пользователя по электронной почте.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value) Найти пользователя по времени подтверждения адреса электронной почты.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value) Найти пользователя по идентификатору.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value) Найти пользователя по имени.
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value) Найти пользователя по паролю.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value) Найти пользователя по токену "запоминания".
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value) Найти пользователя по дате последнего обновления.
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions) Поиск пользователей без указанных разрешений.
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null) Поиск пользователей без указанных ролей.
  *
  * @mixin \Eloquent
  */
-final class User extends Authenticatable
+final class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Атрибуты, которые могут быть присвоены массово.
      *
      * @var array<int, string>
      */
@@ -69,7 +74,7 @@ final class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Атрибуты, которые должны быть скрыты при сериализации.
      *
      * @var array<int, string>
      */
@@ -79,7 +84,7 @@ final class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Преобразование атрибутов модели в определенные типы данных.
      *
      * @var array<string, string>
      */
@@ -88,6 +93,11 @@ final class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Получить URL аватара пользователя.
+     *
+     * @return string URL аватара пользователя.
+     */
     public function getAvatarUrl(): string
     {
         return asset('storage/'.$this->avatar);

@@ -13,15 +13,33 @@ use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Контроллер аутентификации и управления профилем пользователя.
+ *
+ * Этот контроллер обеспечивает обработку запросов, связанных с аутентификацией
+ * пользователей (вход в систему, выход из системы) и управлением профилем пользователя
+ * (регистрация, обновление профиля).
+ */
 final class AuthController extends Controller
 {
     private UserServiceInterface $userService;
 
+    /**
+     * Создает новый экземпляр контроллера.
+     *
+     * @param  UserServiceInterface  $userService  Сервис пользователя для выполнения операций с пользователями.
+     */
     public function __construct(UserServiceInterface $userService)
     {
         $this->userService = $userService;
     }
 
+    /**
+     * Обрабатывает запрос на вход в систему.
+     *
+     * @param  LoginRequest  $request  Запрос на вход в систему.
+     * @return RedirectResponse Редирект после входа в систему.
+     */
     public function signIn(LoginRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
@@ -35,6 +53,12 @@ final class AuthController extends Controller
         }
     }
 
+    /**
+     * Обрабатывает запрос на регистрацию нового пользователя.
+     *
+     * @param  RegisterRequest  $request  Запрос на регистрацию нового пользователя.
+     * @return RedirectResponse Редирект после регистрации пользователя.
+     */
     public function signUp(RegisterRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
@@ -47,6 +71,13 @@ final class AuthController extends Controller
         return to_route('dashboard');
     }
 
+    /**
+     * Обрабатывает запрос на обновление профиля пользователя.
+     *
+     * @param  UpdateProfileRequest  $request  Запрос на обновление профиля пользователя.
+     * @param  StoreAvatarAction  $storeAvatarAction  Действие для сохранения аватара пользователя.
+     * @return RedirectResponse Редирект после обновления профиля пользователя.
+     */
     public function updateProfile(UpdateProfileRequest $request, StoreAvatarAction $storeAvatarAction): RedirectResponse
     {
         $data = $request->validated();
