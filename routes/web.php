@@ -38,4 +38,12 @@ Route::post('/logout', function () {
 Route::middleware(['auth'])->group(function () {
     Route::view('dashboard', 'pages.dashboard')->name('dashboard');
     Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
+
+    Route::middleware(['isEmployee'])->group(function () {
+        Route::prefix('admin')->group(function () {
+            Route::get('/', function () {
+                return view('pages.admin.index');
+            });
+        });
+    });
 });
