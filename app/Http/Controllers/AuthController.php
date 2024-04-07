@@ -51,7 +51,9 @@ final class AuthController extends Controller
     {
         $data = $request->validated();
 
-        $data['avatar'] = $storeAvatarAction($request->file('avatar'), 'avatars');
+        if ($request->has('avatar')) {
+            $data['avatar'] = $storeAvatarAction($request->file('avatar'), 'avatars');
+        }
 
         /** @var User $user */
         $user = Auth::user();

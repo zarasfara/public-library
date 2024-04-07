@@ -15,7 +15,7 @@ final readonly class BookRepository implements BookRepositoryInterface
 
         $conditions = [
             'title' => function ($query, $value) {
-                $query->where('title', 'like', '%' . $value . '%');
+                $query->where('title', 'like', '%'.$value.'%');
             },
             'author' => function ($query, $value) {
                 $query->whereHas('author', function ($query) use ($value) {
@@ -23,7 +23,7 @@ final readonly class BookRepository implements BookRepositoryInterface
                 });
             },
             'genres' => function ($query, $value) {
-                if (!empty($value)) {
+                if (! empty($value)) {
                     $query->whereHas('genres', function ($query) use ($value) {
                         $query->whereIn('id', $value);
                     });

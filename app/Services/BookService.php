@@ -16,8 +16,8 @@ final readonly class BookService implements BookServiceInterface
 
     public function getByQuery(array $filters): \Illuminate\Database\Eloquent\Collection
     {
-        $filteredParams = array_filter($filters, fn($value) => !is_null($value));
+        $filteredParams = array_filter($filters, fn ($value) => ! is_null($value));
+
         return $this->bookRepository->getByQuery($filteredParams);
     }
-
 }

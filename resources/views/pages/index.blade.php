@@ -1,5 +1,8 @@
 @php use App\Models\Genre; @endphp
 @extends('layouts.base')
+
+@section('title', 'Главная страница')
+
 @section('content')
     <div class="mb-3">
         <form action="" method="GET">

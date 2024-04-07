@@ -90,6 +90,6 @@ final class User extends Authenticatable
 
     public function getAvatarUrl(): string
     {
-        return asset('storage/'. $this->avatar);
+        return asset('storage/'.$this->avatar);
     }
 }
