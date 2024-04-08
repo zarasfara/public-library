@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.auth')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{asset('css/register.css')}}">
-    <title>Регистрация</title>
-</head>
+@push('styles')
+    <link rel="stylesheet" href="{{asset('assets/client/css/register.css')}}">
+@endpush
 
-<body>
-<div class="container">
+
+@section('content')
     <main class="form-signup">
         <form method="post" action="{{route('register')}}">
             @csrf
@@ -53,9 +48,4 @@
             <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Войти</button>
         </form>
     </main>
-</div>
-
-<script src="{{asset('js/bootstrap-5.js')}}"></script>
-</body>
-
-</html>
+@endsection

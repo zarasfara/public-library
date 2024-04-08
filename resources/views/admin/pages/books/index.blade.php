@@ -10,10 +10,9 @@
 @section('content')
     <div class="col-12">
         <div class="card">
-            {{--            <div class="card-header">--}}
-            {{--                <h3 class="card-title">DataTable with minimal features &amp; hover style</h3>--}}
-            {{--            </div>--}}
-
+            <div class="card-header">
+                <a href="{{route('books.create')}}" class="btn btn-primary">Создать</a>
+            </div>
             <div class="card-body">
                 <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
@@ -47,7 +46,7 @@
 
                                 @foreach($books as $book)
                                     <tr class="@if($loop->odd) odd @else even @endif">
-                                        <td class="dtr-control sorting_1" tabindex="0">{{$book->title}}</td>
+                                        <td class="dtr-control sorting_1" tabindex="0"><a href="#">{{$book->title}}</a></td>
                                         <td>{{$book->description}}</td>
                                         <td>{{$book->author->getFullName()}}</td>
                                         <td>{{$book->available}}</td>

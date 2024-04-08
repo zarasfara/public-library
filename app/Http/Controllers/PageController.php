@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use App\Services\Interfaces\BookServiceInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ final class PageController extends Controller
 
         return view('pages.index', [
             'books' => $paginatedBooks,
+            'genres' => Genre::all(),
         ]);
     }
 }

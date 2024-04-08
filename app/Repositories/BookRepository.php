@@ -39,4 +39,9 @@ final readonly class BookRepository implements BookRepositoryInterface
 
         return $booksQuery->get();
     }
+
+    public function create(array $data): Book
+    {
+        return Book::create($data);
+    }
 }
