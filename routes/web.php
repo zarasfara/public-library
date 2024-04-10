@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,8 +42,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['isEmployee'])->group(function () {
         Route::prefix('admin')->group(function () {
+            Route::resource('books', BookController::class);
+
             Route::get('/', function () {
-                return view('pages.admin.index');
+                return view('admin.pages.index');
             });
         });
     });

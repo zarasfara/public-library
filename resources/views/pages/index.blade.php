@@ -1,5 +1,8 @@
-@php use App\Models\Genre; @endphp
 @extends('layouts.base')
+@php
+    /* @var \App\Models\Genre[] $genres  */
+    /* @var \App\Models\Book[] $books  */
+@endphp
 
 @section('title', 'Главная страница')
 
@@ -19,7 +22,7 @@
             <div class="mb-3">
                 <label for="genre" class="form-label">Жанр</label>
                 <select class="form-select" id="genre" name="genres[]" multiple>
-                    @foreach(Genre::all() as $genre)
+                    @foreach($genres as $genre)
                         <option value="{{$genre->id}}">{{$genre->name}}</option>
                     @endforeach
                 </select>

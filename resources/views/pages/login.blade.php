@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.auth')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{asset('css/login.css')}}">
-    <title>Document</title>
-</head>
+@push('styles')
+    <link rel="stylesheet" href="{{asset('assets/client/css/login.css')}}">
+@endpush
 
-<body>
-<div class="container">
+@section('content')
+
     <main class="form-signin">
         <form method="post" action="{{route('login')}}">
             @csrf
@@ -37,9 +32,5 @@
         </form>
         <p class="mt-3">Нет аккаунта? <a href="{{ route('register') }}">Создать</a></p>
     </main>
-</div>
 
-<script src="{{asset('js/bootstrap-5.js')}}"></script>
-</body>
-
-</html>
+@endsection

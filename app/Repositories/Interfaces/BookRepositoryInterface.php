@@ -14,4 +14,6 @@ interface BookRepositoryInterface
      * @return Collection<Book>
      */
     public function getByQuery(array $filterParams): \Illuminate\Database\Eloquent\Collection;
+
+    public function create(array $data): Book;
 }
