@@ -9,8 +9,13 @@
         <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Фото профиля</span>
+
             </h4>
-            <img src="{{ Auth::user()->getAvatarUrl() }}" alt="profile-photo" style="max-width: 100%;">
+            @if(Auth::user()->getAvatarUrl() !== '')
+                <img src="{{ Auth::user()->getAvatarUrl() }}" alt="profile-photo" style="max-width: 100%;">
+            @else
+                <p class="text-danger">Фото отсутствует</p>
+            @endif
         </div>
         <div class="col-md-7 col-lg-8">
             <h2>Личные данные</h2>

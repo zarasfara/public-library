@@ -24,7 +24,7 @@ final readonly class BookService implements BookServiceInterface
 
     public function store(array $data, UploadedFile $image): void
     {
-        $imagePath = $this->storeImage($image);
+        $imagePath = $this->handleUploadedImage($image);
         $data['image'] = $imagePath;
 
         $book = $this->bookRepository->create($data);
@@ -32,7 +32,7 @@ final readonly class BookService implements BookServiceInterface
         $book->genres()->attach($data['genres']);
     }
 
-    private function storeImage(UploadedFile $image): string
+    private function handleUploadedImage(UploadedFile $image): string
     {
         return $image->store('images/books', 'public');
     }

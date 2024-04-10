@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Контроллер аутентификации и управления профилем пользователя.
@@ -64,7 +65,6 @@ final class AuthController extends Controller
         $credentials = $request->validated();
 
         $user = $this->userService->create($credentials);
-        $user->toArray();
 
         Auth::login($user);
 
@@ -80,17 +80,22 @@ final class AuthController extends Controller
      */
     public function updateProfile(UpdateProfileRequest $request, StoreAvatarAction $storeAvatarAction): RedirectResponse
     {
+        $user = Auth::user();
         $data = $request->validated();
 
-        if ($request->has('avatar')) {
-            $data['avatar'] = $storeAvatarAction($request->file('avatar'), 'avatars');
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $storeAvatarAction($request->file('avatar'), 'avatars');
+            if (!is_null($user->avatar)) {
+                Storage::delete($user->avatar);
+            }
+            $data['avatar'] = $avatarPath;
+            $user->avatar = $avatarPath;
         }
 
-        /** @var User $user */
-        $user = Auth::user();
-
-        $user->update($data);
-
-        return redirect()->back();
+        if ($user->update($data)) {
+            return redirect()->back()->with('success', 'Profile updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update profile.');
+        }
     }
 }

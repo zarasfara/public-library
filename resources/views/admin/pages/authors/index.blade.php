@@ -1,17 +1,17 @@
 @extends('admin.layouts.base')
 
 @php
-    /* @var \App\Models\Book[] $books */
+    /* @var \App\Models\Author[] $authors */
 @endphp
 
 @section('title', 'Главная')
-@section('heading', 'Книжный фонд')
+@section('heading', 'Авторы')
 
 @section('content')
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{route('books.create')}}" class="btn btn-primary">Создать</a>
+                <a href="{{route('authors.create')}}" class="btn btn-primary">Создать</a>
             </div>
             <div class="card-body">
                 <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -28,50 +28,44 @@
                                     <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
                                         colspan="1" aria-sort="ascending"
                                         aria-label="Rendering engine: activate to sort column descending">
-                                        Название
+                                        Имя
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                         aria-label="Browser: activate to sort column ascending">
-                                        Описание книги
+                                        Фамилия
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Platform(s): activate to sort column ascending">Автор
+                                        aria-label="Platform(s): activate to sort column ascending">Отчество
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Engine version: activate to sort column ascending">Наличие книги
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Engine version: activate to sort column ascending">Действия
+                                        aria-label="Platform(s): activate to sort column ascending">Действия
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                @foreach($books as $book)
-                                    <tr class="@if($loop->odd) odd @else even @endif">
-                                        <td class="dtr-control sorting_1" tabindex="0"><a href="#">{{$book->title}}</a></td>
-                                        <td>{{$book->description}}</td>
-                                        <td>{{$book->author->getFullName()}}</td>
-                                        <td>{{$book->available}}</td>
+                                @foreach($authors as $author)
+                                    <tr class="odd">
+                                        <td class="dtr-control sorting_1" tabindex="0"><a
+                                                href="#">{{$author->first_name}}</a></td>
+                                        <td>{{$author->last_name}}</td>
+                                        <td>{{$author->patronymic ?? '-'}}</td>
                                         <td>
-                                            <form class="" action="{{route('books.destroy', $book->id)}}" method="post">
+                                            <form class="" action="{{route('authors.destroy', $author->id)}}" method="post">
                                                 @method('DELETE')
                                                 @csrf
-                                                <input type="hidden" name="author_id" value="{{ $book->id }}">
+                                                <input type="hidden" name="author_id" value="{{ $author->id }}">
                                                 <button class="btn btn-danger" type="submit">Удалить</button>
                                             </form>
-                                            <a href="{{route('books.edit', $book->id)}}" class="btn btn-primary">Изменить</a>
+                                            <a href="{{route('authors.edit', $author->id)}}" class="btn btn-primary">Изменить</a>
                                         </td>
                                     </tr>
                                 @endforeach
-
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th rowspan="1" colspan="1">Название</th>
-                                    <th rowspan="1" colspan="1">Описание</th>
-                                    <th rowspan="1" colspan="1">Автор</th>
-                                    <th rowspan="1" colspan="1">Наличие книги</th>
+                                    <th rowspan="1" colspan="1">Имя</th>
+                                    <th rowspan="1" colspan="1">Фамилия</th>
+                                    <th rowspan="1" colspan="1">Отчество</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -79,7 +73,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-7">
-                            {{ $books->links() }}
+                            {{ $authors->links() }}
                         </div>
                     </div>
                 </div>
@@ -88,3 +82,4 @@
 
     </div>
 @endsection
+

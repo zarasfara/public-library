@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\RoleEnum;
 use App\Models\Genre;
 use App\Services\Interfaces\BookServiceInterface;
 use Illuminate\Contracts\View\View;

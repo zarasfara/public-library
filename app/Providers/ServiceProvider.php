@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\AuthorService;
 use App\Services\BookService;
+use App\Services\Interfaces\AuthorServiceInterface;
 use App\Services\Interfaces\BookServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\UserService;
@@ -25,6 +27,11 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->bind(
             BookServiceInterface::class,
             BookService::class
+        );
+
+        $this->app->bind(
+            AuthorServiceInterface::class,
+            AuthorService::class
         );
     }
 
