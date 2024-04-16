@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Модель книги.
@@ -80,8 +81,30 @@ final class Book extends Model
         return $this->belongsToMany(Genre::class);
     }
 
+    /**
+     * Получить url изображения книги
+     *
+     * @return string
+     */
     public function getImageUrl(): string
     {
         return asset('storage/'.$this->image);
+    }
+
+    /**
+     * Проверить что текущая книга доступна.
+     *
+     * @return bool
+     */
+    public function isAvailable(): bool
+    {
+        return $this->available > 0;
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Book $book) {
+            Storage::disk('public')->delete($book->image);
+        });
     }
 }

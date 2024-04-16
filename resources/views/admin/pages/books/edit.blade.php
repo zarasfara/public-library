@@ -94,9 +94,8 @@
                                     class="form-control author-select @error('author_id') is-invalid @enderror">
                                 @foreach($authors as $author)
                                     <option
-                                        @if($book->author->getFullName() === $author->getFullName())
-                                            selected
-                                        @endif value="{{$author->id}}">{{$author->getFullName()}}</option>
+                                        {{ $book->author->getFullName() === $author->getFullName() ? 'selected' : ''}}
+                                        value="{{$author->id}}">{{$author->getFullName()}}</option>
                                 @endforeach
                             </select>
                             @error('author_id')
@@ -104,7 +103,7 @@
                             @enderror
                         </div>
                     </div>
-                    <img src="{{$book->getImageUrl()}}" alt="aboba" class="img-thumbnail">
+                    <img src="{{ filter_var($book->image, FILTER_VALIDATE_URL) ? $book->image : $book->getImageUrl() }}" alt="aboba" class="img-thumbnail">
                 </div>
 
             </div>

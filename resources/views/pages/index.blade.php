@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="genre" class="form-label">Жанр</label>
+                <label for="genre" class="form-label">Жанры</label>
                 <select class="form-select" id="genre" name="genres[]" multiple>
                     @foreach($genres as $genre)
                         <option value="{{$genre->id}}">{{$genre->name}}</option>
@@ -38,6 +38,6 @@
         @endforeach
     </div>
 
-    {{ $books->links() }}
+    {{ $books->appends(request()->except('page'))->links() }}
 @endsection
 

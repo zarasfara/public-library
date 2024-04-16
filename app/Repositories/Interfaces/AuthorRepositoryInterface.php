@@ -10,7 +10,7 @@ interface AuthorRepositoryInterface
 {
     public function store(array $data): void;
 
-    public function delete(int $id): void;
+    public function delete(Author $author): void;
 
     public function update(Author $author, array $data): bool;
 }

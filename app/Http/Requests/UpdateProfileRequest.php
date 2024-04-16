@@ -29,7 +29,7 @@ final class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => ['exclude_if:name,null'],
-            'email' => ['exclude_if:email,null', Rule::unique('users')->ignore(Auth::id())],
+            'email' => ['exclude_if:email,null', 'email', Rule::unique('users')->ignore(Auth::id())],
             'avatar' => ['extensions:jpg,png'],
             'password' => [
                 'exclude_if:password,null',

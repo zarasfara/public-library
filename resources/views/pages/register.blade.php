@@ -46,6 +46,7 @@
                 <label for="passwordConfirmation">Подтвердите пароль</label>
             </div>
             <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Войти</button>
+            <p class="mt-3">Есть аккаунт? <a href="{{ route('login') }}">Войти</a></p>
         </form>
     </main>
 @endsection

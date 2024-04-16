@@ -6,10 +6,11 @@ namespace App\Repositories;
 
 use App\Models\Book;
 use App\Repositories\Interfaces\BookRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final readonly class BookRepository implements BookRepositoryInterface
 {
-    public function getByQuery(array $filterParams): \Illuminate\Database\Eloquent\Collection
+    public function searchWithPagination(array $filterParams, int $perPage, int $page): LengthAwarePaginator
     {
         $booksQuery = Book::query();
 
@@ -23,11 +24,9 @@ final readonly class BookRepository implements BookRepositoryInterface
                 });
             },
             'genres' => function ($query, $value) {
-                if (! empty($value)) {
-                    $query->whereHas('genres', function ($query) use ($value) {
-                        $query->whereIn('id', $value);
-                    });
-                }
+                $query->whereHas('genres', function ($query) use ($value) {
+                    $query->whereIn('id', $value);
+                });
             },
         ];
 
@@ -37,11 +36,27 @@ final readonly class BookRepository implements BookRepositoryInterface
             }
         }
 
-        return $booksQuery->get();
+        return $booksQuery->paginate(
+            perPage: $perPage,
+            columns: ['title', 'description', 'author_id', 'available', 'image'],
+            page: $page
+        );
+    }
+
+    public function update(Book $book, array $data): bool
+    {
+        $book->fill($data);
+
+        return $book->save();
     }
 
     public function create(array $data): Book
     {
         return Book::create($data);
+    }
+
+    public function destroy(Book $book): void
+    {
+        $book->delete();
     }
 }

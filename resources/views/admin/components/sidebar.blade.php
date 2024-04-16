@@ -1,9 +1,9 @@
 <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="{{route('admin.index')}}" class="brand-link">
         <img src="{{asset('assets/admin/images/AdminLTELogo.png')}}" alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Админ-панель</span>
     </a>
 
     <!-- Sidebar -->
@@ -11,7 +11,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{Auth::user()->getAvatarUrl()}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{Auth::user()->avatar}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{Auth::user()->name}}</a>

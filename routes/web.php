@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\PageController::class, 'index'])->name('home');
+Route::get('/', [PageController::class, 'index'])->name('home');
 
 Route::prefix('login')->group(function () {
     Route::view('/', 'pages.login')->name('login.form');
@@ -31,14 +31,10 @@ Route::prefix('register')->group(function () {
     Route::post('/', [AuthController::class, 'signUp'])->name('register');
 });
 
-Route::post('/logout', function () {
-    Auth::logout();
-
-    return to_route('login.form');
-})->name('logout');
+Route::post('/logout', [AuthController::class, 'signOut'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::view('dashboard', 'pages.dashboard')->name('dashboard');
+    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
 
     Route::middleware(['isEmployee'])->group(function () {
@@ -48,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/', function () {
                 return view('admin.pages.index');
-            });
+            })->name('admin.index');
         });
     });
 });
