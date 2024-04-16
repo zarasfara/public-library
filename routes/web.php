@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['isEmployee'])->group(function () {
         Route::prefix('admin')->group(function () {
             Route::resource('books', BookController::class);
+            Route::resource('authors', AuthorController::class);
 
             Route::get('/', function () {
                 return view('admin.pages.index');

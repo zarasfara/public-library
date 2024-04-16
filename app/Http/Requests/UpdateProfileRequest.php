@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class UpdateProfileRequest extends FormRequest
+final class UpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

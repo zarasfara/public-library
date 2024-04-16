@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Repositories\AuthorRepository;
 use App\Repositories\BookRepository;
+use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use App\Repositories\Interfaces\BookRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
@@ -25,6 +27,11 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(
             BookRepositoryInterface::class,
             BookRepository::class
+        );
+
+        $this->app->bind(
+            AuthorRepositoryInterface::class,
+            AuthorRepository::class
         );
     }
 

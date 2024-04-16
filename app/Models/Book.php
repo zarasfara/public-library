@@ -79,4 +79,9 @@ final class Book extends Model
     {
         return $this->belongsToMany(Genre::class);
     }
+
+    public function getImageUrl(): string
+    {
+        return asset('storage/'.$this->image);
+    }
 }
