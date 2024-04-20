@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AuthorController;
-use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\BookCheckoutController;
+use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,14 +39,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
 
+    Route::post('/checkout-book/{book}', [BookController::class, 'checkoutBook'])->name('checkout.book');
+
     Route::middleware(['isEmployee'])->group(function () {
         Route::prefix('admin')->group(function () {
-            Route::resource('books', BookController::class);
+            Route::resource('books', AdminBookController::class);
             Route::resource('authors', AuthorController::class);
+
+            Route::get('/checkouts', [BookCheckoutController::class, 'index'])->name('checkouts.index');
+            Route::put('/checkouts/extend-checkout/{bookCheckout}', [BookCheckoutController::class, 'extendCheckout'])->name('checkouts.extend');
+            Route::put('/checkouts/return-checkout/{bookCheckout}', [BookCheckoutController::class, 'returnBook'])->name('checkouts.return');
 
             Route::get('/', function () {
                 return view('admin.pages.index');
             })->name('admin.index');
         });
+
     });
 });

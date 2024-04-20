@@ -108,7 +108,7 @@
 
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Создать</button>
+                <button type="submit" class="btn btn-primary">Изменить</button>
             </div>
         </form>
     </div>

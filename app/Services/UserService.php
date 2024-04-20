@@ -17,6 +17,13 @@ final readonly class UserService implements UserServiceInterface
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * Создает нового пользователя на основе предоставленных данных.
+     *
+     * @param array $userData Данные нового пользователя.
+     *
+     * @return User Созданный пользователь.
+     */
     public function create(array $userData): User
     {
         // we can do in this place some another logic. For example send a letter to email

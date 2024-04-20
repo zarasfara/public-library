@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -41,6 +42,9 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereImage($value) Найти книгу по изображению.
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value) Найти книгу по заголовку.
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value) Найти книгу по дате последнего обновления.
+ *
+ * @property-read \App\Models\BookCheckout|null $bookCheckout
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Genre> $genres
  *
  * @mixin \Eloquent
  */
@@ -83,8 +87,6 @@ final class Book extends Model
 
     /**
      * Получить url изображения книги
-     *
-     * @return string
      */
     public function getImageUrl(): string
     {
@@ -93,17 +95,20 @@ final class Book extends Model
 
     /**
      * Проверить что текущая книга доступна.
-     *
-     * @return bool
      */
     public function isAvailable(): bool
     {
         return $this->available > 0;
     }
 
+    public function bookCheckout(): HasOne
+    {
+        return $this->hasOne(BookCheckout::class);
+    }
+
     protected static function booted(): void
     {
-        static::deleting(function (Book $book) {
+        self::deleting(function (Book $book) {
             Storage::disk('public')->delete($book->image);
         });
     }

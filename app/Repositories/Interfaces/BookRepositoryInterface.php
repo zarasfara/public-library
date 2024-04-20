@@ -19,4 +19,6 @@ interface BookRepositoryInterface
     public function update(Book $book, array $data): bool;
 
     public function destroy(Book $book): void;
+
+    public function checkOutBook(int $userId, Book $book): bool;
 }
