@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -95,11 +96,13 @@ final class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Получить URL аватара пользователя.
-     *
-     * @return string URL аватара пользователя.
      */
-    public function getAvatarUrl(): string
+    protected function avatar(): Attribute
     {
-        return asset('storage/'.$this->avatar);
+        return Attribute::make(
+            get: function (string|null $value) {
+                return !is_null($value) ? asset('storage/' . $value) : null;
+            }
+        );
     }
 }

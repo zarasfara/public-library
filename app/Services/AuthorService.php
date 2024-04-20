@@ -19,9 +19,13 @@ final readonly class AuthorService implements Interfaces\AuthorServiceInterface
         $this->authorRepository->store($data);
     }
 
-    public function delete(int $id): void
+    public function delete(Author $author): void
     {
-        $this->authorRepository->delete($id);
+        // read the warning below https://laravel.com/docs/11.x/eloquent#events
+        // it's not my mistake...
+        $author->books()->delete();
+
+        $this->authorRepository->delete($author);
     }
 
     public function update(Author $author, array $data): bool

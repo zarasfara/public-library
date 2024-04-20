@@ -14,10 +14,8 @@ final readonly class AuthorRepository implements AuthorRepositoryInterface
         Author::create($data);
     }
 
-    public function delete(int $id): void
+    public function delete(Author $author): void
     {
-        $author = Author::findOrFail($id);
-
         $author->delete();
     }
 

@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\RoleEnum;
 use App\Models\Genre;
 use App\Services\Interfaces\BookServiceInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 
 final class PageController extends Controller
 {
+    private const int PER_PAGE = 9;
+
     public function __construct(
         private readonly BookServiceInterface $bookService
     ) {
+    }
+
+    public function dashboard(): View
+    {
+        return view('pages.dashboard');
     }
 
     /**
@@ -28,24 +32,12 @@ final class PageController extends Controller
     public function index(Request $request): View
     {
         $filterParams = $request->query();
+        $currentPage = (int) $request->query('page', 1);
 
-        $books = $this->bookService->getByQuery($filterParams);
-
-        $page = Paginator::resolveCurrentPage();
-
-        $perPage = 9;
-
-        $paginatedItems = $books->forPage($page, $perPage);
-
-        $paginatedBooks = new LengthAwarePaginator(
-            items: $paginatedItems,
-            total: $books->count(),
-            perPage: $perPage,
-            currentPage: $page
-        );
+        $books = $this->bookService->searchWithPagination($filterParams, self::PER_PAGE, $currentPage);
 
         return view('pages.index', [
-            'books' => $paginatedBooks,
+            'books' => $books,
             'genres' => Genre::all(),
         ]);
     }

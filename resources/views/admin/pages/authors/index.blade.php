@@ -49,14 +49,14 @@
                                                 href="#">{{$author->first_name}}</a></td>
                                         <td>{{$author->last_name}}</td>
                                         <td>{{$author->patronymic ?? '-'}}</td>
-                                        <td>
-                                            <form class="" action="{{route('authors.destroy', $author->id)}}" method="post">
+                                        <td class="d-flex">
+                                            <form class="mr-2" action="{{ route('authors.destroy', $author->id) }}" method="post">
                                                 @method('DELETE')
                                                 @csrf
                                                 <input type="hidden" name="author_id" value="{{ $author->id }}">
                                                 <button class="btn btn-danger" type="submit">Удалить</button>
                                             </form>
-                                            <a href="{{route('authors.edit', $author->id)}}" class="btn btn-primary">Изменить</a>
+                                            <a href="{{ route('authors.edit', $author->id) }}" class="btn btn-primary">Изменить</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -66,6 +66,7 @@
                                     <th rowspan="1" colspan="1">Имя</th>
                                     <th rowspan="1" colspan="1">Фамилия</th>
                                     <th rowspan="1" colspan="1">Отчество</th>
+                                    <th rowspan="1" colspan="1">Действия</th>
                                 </tr>
                                 </tfoot>
                             </table>

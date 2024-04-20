@@ -8,7 +8,6 @@ use App\Actions\StoreAvatarAction;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Models\User;
 use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -23,16 +22,13 @@ use Illuminate\Support\Facades\Storage;
  */
 final class AuthController extends Controller
 {
-    private UserServiceInterface $userService;
-
     /**
      * Создает новый экземпляр контроллера.
      *
      * @param  UserServiceInterface  $userService  Сервис пользователя для выполнения операций с пользователями.
      */
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(private readonly UserServiceInterface $userService)
     {
-        $this->userService = $userService;
     }
 
     /**
@@ -85,8 +81,8 @@ final class AuthController extends Controller
 
         if ($request->hasFile('avatar')) {
             $avatarPath = $storeAvatarAction($request->file('avatar'), 'avatars');
-            if (!is_null($user->avatar)) {
-                Storage::delete($user->avatar);
+            if (! is_null($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
             }
             $data['avatar'] = $avatarPath;
             $user->avatar = $avatarPath;
@@ -97,5 +93,15 @@ final class AuthController extends Controller
         } else {
             return redirect()->back()->with('error', 'Failed to update profile.');
         }
+    }
+
+    /**
+     * Обрабатывает запрос на логаут.
+     */
+    public function signOut(): RedirectResponse
+    {
+        Auth::logout();
+
+        return to_route('login.form');
     }
 }
