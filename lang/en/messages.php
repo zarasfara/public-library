@@ -13,4 +13,5 @@ return [
     'author_delete_failed' => 'Failed to delete author. Please try again.',
     'book_updated' => 'Book updated successfully.',
     'book_update_failed' => 'Failed to update book.',
+    'book_returned' => 'Book returned successfully.',
 ];

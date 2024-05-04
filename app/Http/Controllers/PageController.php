@@ -18,6 +18,11 @@ final class PageController extends Controller
     ) {
     }
 
+    /**
+     * Отображает панель управления.
+     *
+     * @return View Представление панели управления.
+     */
     public function dashboard(): View
     {
         return view('pages.dashboard');

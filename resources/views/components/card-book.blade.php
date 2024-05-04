@@ -13,7 +13,10 @@
         <p class="card-text">Краткое описание: {{Str::words($book->description, 10)}}</p>
 
         @if($book->isAvailable())
-            <a href="#" class="btn btn-primary mt-auto align-self-start">Оформить</a>
+            <form action="{{route('checkout.book', $book->id)}}" method="post">
+                @csrf
+                <button class="btn btn-primary mt-auto align-self-start" type="submit">Оформить</button>
+            </form>
         @else
             <a href="#" class="btn btn-secondary mt-auto align-self-start" disabled>Забронировать</a>
         @endif

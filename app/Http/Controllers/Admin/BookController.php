@@ -21,6 +21,11 @@ final class BookController extends Controller
     ) {
     }
 
+    /**
+     * Отображает список ресурсов.
+     *
+     * @return View Вид для списка книг.
+     */
     public function index(): View
     {
         return view('admin.pages.books.index', [
@@ -28,6 +33,11 @@ final class BookController extends Controller
         ]);
     }
 
+    /**
+     * Отображает форму создания нового ресурса.
+     *
+     * @return View Вид для создания новой книги.
+     */
     public function create(): View
     {
         return view('admin.pages.books.create', [
@@ -36,6 +46,13 @@ final class BookController extends Controller
         ]);
     }
 
+    /**
+     * Сохраняет вновь созданный ресурс в хранилище.
+     *
+     * @param StoreBookRequest $request Объект запроса.
+     *
+     * @return RedirectResponse Редирект на предыдущую страницу.
+     */
     public function store(StoreBookRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -46,6 +63,13 @@ final class BookController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Отображает форму редактирования указанного ресурса.
+     *
+     * @param \App\Models\Book $book Экземпляр книги для редактирования.
+     *
+     * @return View Вид для редактирования книги.
+     */
     public function edit(Book $book): View
     {
         return view('admin.pages.books.edit', [
@@ -55,6 +79,14 @@ final class BookController extends Controller
         ]);
     }
 
+    /**
+     * Обновляет указанный ресурс в хранилище.
+     *
+     * @param \App\Models\Book $book Экземпляр книги для обновления.
+     * @param UpdateBookRequest $request Объект запроса.
+     *
+     * @return RedirectResponse Редирект на предыдущую страницу.
+     */
     public function update(Book $book, UpdateBookRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -68,6 +100,13 @@ final class BookController extends Controller
         }
     }
 
+    /**
+     * Удаляет указанный ресурс из хранилища.
+     *
+     * @param \App\Models\Book $book Экземпляр книги для удаления.
+     *
+     * @return RedirectResponse Редирект на предыдущую страницу.
+     */
     public function destroy(Book $book): RedirectResponse
     {
         $this->bookService->destroy($book);

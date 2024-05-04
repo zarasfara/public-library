@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereId($value) Найти жанр по идентификатору.
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereName($value) Найти жанр по названию.
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ *
  * @mixin \Eloquent
  */
 final class Genre extends Model

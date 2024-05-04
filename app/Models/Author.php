@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastName($value) Найти автора по фамилии.
  * @method static \Illuminate\Database\Eloquent\Builder|Author wherePatronymic($value) Найти автора по отчеству.
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ *
  * @mixin \Eloquent
  */
 final class Author extends Model

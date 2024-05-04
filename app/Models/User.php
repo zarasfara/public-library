@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,6 +57,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions) Поиск пользователей без указанных разрешений.
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null) Поиск пользователей без указанных ролей.
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ * @property-read int|null $books_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ *
  * @mixin \Eloquent
  */
 final class User extends Authenticatable implements MustVerifyEmail
@@ -95,13 +103,28 @@ final class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * Возвращает список книг, взятых пользователем.
+     */
+    public function books(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Book::class,
+            BookCheckout::class,
+            'user_id',
+            'id',
+            'id',
+            'book_id'
+        );
+    }
+
+    /**
      * Получить URL аватара пользователя.
      */
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: function (string|null $value) {
-                return !is_null($value) ? asset('storage/' . $value) : null;
+            get: function (?string $value) {
+                return ! is_null($value) ? asset('storage/'.$value) : null;
             }
         );
     }

@@ -58,7 +58,8 @@
 
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Фото профиля</label>
-                        <input name="avatar" class="form-control @error('avatar') is-invalid @enderror" type="file" id="formFile">
+                        <input name="avatar" class="form-control @error('avatar') is-invalid @enderror" type="file"
+                               id="formFile">
                         @error('avatar')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -69,6 +70,21 @@
                 <hr class="my-4">
                 <button class="w-100 btn btn-primary btn-lg" type="submit">Сохранить</button>
             </form>
+            <h2>Взятые книги</h2>
+            <ul class="list-group">
+                @foreach(Auth::user()->books as $book)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ $book->title }}</span>
+                        <span class="badge {{ $book->bookCheckout->isOverdue() ? 'bg-danger' : 'bg-secondary' }}">
+                        @if ($book->bookCheckout->isOverdue())
+                                <span>Просрочено</span>
+                        @else
+                            <span>Вернуть к {{ $book->bookCheckout->return_date->format('d.m.Y')}}</span>
+                        @endif
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 @endsection

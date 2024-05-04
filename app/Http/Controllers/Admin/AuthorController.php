@@ -13,6 +13,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Класс AuthorController
+ *
+ * @package App\Http\Controllers\Admin
+ */
 final class AuthorController extends Controller
 {
     private AuthorService $authorService;
@@ -22,6 +27,11 @@ final class AuthorController extends Controller
         $this->authorService = $authorService;
     }
 
+    /**
+     * Отображает список авторов.
+     *
+     * @return View Вид для списка авторов.
+     */
     public function index(): View
     {
         return view('admin.pages.authors.index', [
@@ -29,11 +39,23 @@ final class AuthorController extends Controller
         ]);
     }
 
+    /**
+     * Отображает форму создания нового автора.
+     *
+     * @return View Вид для создания нового автора.
+     */
     public function create(): View
     {
         return view('admin.pages.authors.create');
     }
 
+    /**
+     * Сохраняет вновь созданный ресурс в хранилище.
+     *
+     * @param StoreAuthorRequest $request Объект запроса.
+     *
+     * @return RedirectResponse Редирект на страницу.
+     */
     public function store(StoreAuthorRequest $request): RedirectResponse
     {
         try {
@@ -48,11 +70,26 @@ final class AuthorController extends Controller
         }
     }
 
+    /**
+     * Отображает форму редактирования указанного автора.
+     *
+     * @param \App\Models\Author $author Экземпляр автора для редактирования.
+     *
+     * @return View Вид для редактирования автора.
+     */
     public function edit(Author $author): View
     {
         return view('admin.pages.authors.edit', compact('author'));
     }
 
+    /**
+     * Обновляет указанный ресурс в хранилище.
+     *
+     * @param \App\Models\Author $author Экземпляр автора для обновления.
+     * @param UpdateAuthorRequest $request Объект запроса.
+     *
+     * @return RedirectResponse Редирект на страницу.
+     */
     public function update(Author $author, UpdateAuthorRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -64,6 +101,13 @@ final class AuthorController extends Controller
         return redirect()->route('authors.edit', $author)->withErrors(['error' => __('messages.author_update_failed')]);
     }
 
+    /**
+     * Удаляет указанный ресурс из хранилища.
+     *
+     * @param \App\Models\Author $author Экземпляр автора для удаления.
+     *
+     * @return RedirectResponse Редирект на страницу.
+     */
     public function destroy(Author $author): RedirectResponse
     {
         try {

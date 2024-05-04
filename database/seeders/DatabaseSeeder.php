@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Enums\RoleEnum;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -27,6 +28,15 @@ class DatabaseSeeder extends Seeder
         $librarian = Role::create(['name' => RoleEnum::LIBRARIAN]);
         $administrator = Role::create(['name' => RoleEnum::ADMINISTRATOR]);
         $secretary = Role::create(['name' => RoleEnum::SECRETARY]);
+
+        /* @var User $user */
+        $user = User::factory()->create([
+            'name' => 'eugene',
+            'email' => 'oev2001@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $user->assignRole($administrator);
 
         $this->call(BookGenreSeeder::class);
     }

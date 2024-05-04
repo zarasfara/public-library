@@ -15,4 +15,6 @@ interface BookServiceInterface
     public function store(array $data, UploadedFile $image): void;
 
     public function destroy(Book $book): void;
+
+    public function checkOutBook(int $userId, Book $book): bool;
 }
