@@ -24,8 +24,12 @@ final class BookController extends Controller
      */
     public function checkoutBook(Book $book): RedirectResponse
     {
-        $this->bookService->checkoutBook(\Auth::id(), $book);
+        $success = $this->bookService->checkoutBook(\Auth::id(), $book);
 
-        return redirect()->back();
+        if ($success) {
+            return redirect()->back()->with('success', __('message.book_checkout_success'));
+        } else {
+            return redirect()->back()->with('error', 'something went wrong');
+        }
     }
 }

@@ -15,7 +15,7 @@
         @if($book->isAvailable())
             <form action="{{route('checkout.book', $book->id)}}" method="post">
                 @csrf
-                <button class="btn btn-primary mt-auto align-self-start" type="submit">Оформить</button>
+                <button class="btn btn-primary mt-auto align-self-start" type="submit" id="liveToastBtn">Оформить</button>
             </form>
         @else
             <a href="#" class="btn btn-secondary mt-auto align-self-start" disabled>Забронировать</a>

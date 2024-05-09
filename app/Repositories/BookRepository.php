@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Book;
+use App\Models\BookCheckout;
 use App\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -109,6 +110,9 @@ final readonly class BookRepository implements BookRepositoryInterface
             return DB::transaction(function () use ($userId, $book) {
                 $book->decrement('available');
 
+                /**
+                 * @var BookCheckout $checkout
+                 */
                 $checkout = $book->bookCheckout()->create([
                     'user_id' => $userId,
                     'return_date' => now()->addMonth(),
