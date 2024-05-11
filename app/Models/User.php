@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\RoleEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -127,5 +128,15 @@ final class User extends Authenticatable implements MustVerifyEmail
                 return ! is_null($value) ? asset('storage/'.$value) : null;
             }
         );
+    }
+
+    /**
+     * Является ли пользователь сотрудником
+     *
+     * @return bool
+     */
+    public function isEmployee(): bool
+    {
+        return $this->hasAnyRole(RoleEnum::getAllRoles());
     }
 }

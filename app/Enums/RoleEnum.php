@@ -26,4 +26,13 @@ enum RoleEnum: string
      * Роль секретаря.
      */
     case SECRETARY = 'secretary';
+
+    public static function getAllRoles(): array
+    {
+        return [
+            self::LIBRARIAN->value,
+            self::ADMINISTRATOR->value,
+            self::SECRETARY->value,
+        ];
+    }
 }

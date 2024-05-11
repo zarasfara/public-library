@@ -27,7 +27,7 @@ final class BookController extends Controller
         $success = $this->bookService->checkoutBook(\Auth::id(), $book);
 
         if ($success) {
-            return redirect()->back()->with('success', __('message.book_checkout_success'));
+            return redirect()->back()->with('success', __('messages.book_checkout_success'));
         } else {
             return redirect()->back()->with('error', 'something went wrong');
         }
