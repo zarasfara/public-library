@@ -11,14 +11,13 @@
         <h5 class="card-title">{{$book->title}}</h5>
         <p class="card-text">Автор: {{$book->author->getFullName()}}</p>
         <p class="card-text">Краткое описание: {{Str::words($book->description, 10)}}</p>
-
-        @if($book->isAvailable())
-            <form action="{{route('checkout.book', $book->id)}}" method="post">
+        @if($book->isAvailable() && (!Auth::check() || !$book->isCheckedOutByUser(Auth::user())))
+            <form action="{{ route('checkout.book', $book->id) }}" method="post">
                 @csrf
                 <button class="btn btn-primary mt-auto align-self-start" type="submit" id="liveToastBtn">Оформить</button>
             </form>
         @else
-            <a href="#" class="btn btn-secondary mt-auto align-self-start" disabled>Забронировать</a>
+            <button class="btn btn-secondary mt-auto align-self-start" disabled>Не доступно</button>
         @endif
     </div>
 </div>
