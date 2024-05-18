@@ -12,9 +12,7 @@ final readonly class AuthorRepository implements AuthorRepositoryInterface
     /**
      * Сохраняет данные нового автора.
      *
-     * @param array $data Данные нового автора.
-     *
-     * @return void
+     * @param  array  $data  Данные нового автора.
      */
     public function store(array $data): void
     {
@@ -24,9 +22,7 @@ final readonly class AuthorRepository implements AuthorRepositoryInterface
     /**
      * Удаляет указанного автора.
      *
-     * @param Author $author Экземпляр автора.
-     *
-     * @return void
+     * @param  Author  $author  Экземпляр автора.
      */
     public function delete(Author $author): void
     {
@@ -36,10 +32,8 @@ final readonly class AuthorRepository implements AuthorRepositoryInterface
     /**
      * Обновляет данные указанного автора.
      *
-     * @param Author $author Экземпляр автора.
-     * @param array $data Данные для обновления автора.
-     *
-     * @return bool
+     * @param  Author  $author  Экземпляр автора.
+     * @param  array  $data  Данные для обновления автора.
      */
     public function update(Author $author, array $data): bool
     {

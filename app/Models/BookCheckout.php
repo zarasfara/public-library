@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereReturnDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereIsReturned($value)
  *
  * @mixin \Eloquent
  */
@@ -39,12 +40,12 @@ final class BookCheckout extends Model
         'user_id',
         'book_id',
         'return_date',
-        'is_returned'
+        'is_returned',
     ];
 
     protected $guarded = [
         'user_id',
-        'book_id'
+        'book_id',
     ];
 
     protected $casts = [

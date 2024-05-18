@@ -51,7 +51,7 @@
                                     <tr class="@if($loop->odd) odd @else even @endif">
                                         <td class="dtr-control sorting_1" tabindex="0"><a href="#">{{$book->title}}</a></td>
                                         <td>{{$book->description}}</td>
-                                        <td>{{$book->author->getFullName()}}</td>
+                                        <td><a href="{{route('authors.edit', $book->author)}}">{{$book->author->getFullName()}}</a></td>
                                         <td>{{$book->available}}</td>
                                         <td>
                                             <form class="" action="{{route('books.destroy', $book->id)}}" method="post">

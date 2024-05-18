@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components\Toasts;
 
 use Illuminate\View\Component;
@@ -10,8 +12,6 @@ abstract class BaseToast extends Component
 
     /**
      * Create a new component instance.
-     *
-     * @param string $message
      */
     public function __construct(string $message)
     {
