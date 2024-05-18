@@ -58,12 +58,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions) Поиск пользователей без указанных разрешений.
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null) Поиск пользователей без указанных ролей.
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $reservedBooks
  * @property-read int|null $books_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $reserved_books_count
  *
  * @mixin \Eloquent
  */
@@ -106,7 +107,7 @@ final class User extends Authenticatable implements MustVerifyEmail
     /**
      * Возвращает список книг, взятых пользователем.
      */
-    public function books(): HasManyThrough
+    public function reservedBooks(): HasManyThrough
     {
         return $this->hasManyThrough(
             Book::class,
@@ -115,7 +116,7 @@ final class User extends Authenticatable implements MustVerifyEmail
             'id',
             'id',
             'book_id'
-        );
+        )->where('book_checkouts.is_returned', false);
     }
 
     /**
@@ -132,8 +133,6 @@ final class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Является ли пользователь сотрудником
-     *
-     * @return bool
      */
     public function isEmployee(): bool
     {

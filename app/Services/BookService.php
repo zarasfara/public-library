@@ -21,11 +21,9 @@ final readonly class BookService implements BookServiceInterface
     /**
      * Выполняет поиск книг с пагинацией и фильтрацией.
      *
-     * @param array $filters Фильтры для поиска.
-     * @param int $perPage Количество результатов на страницу.
-     * @param int $page Номер страницы.
-     *
-     * @return LengthAwarePaginator
+     * @param  array  $filters  Фильтры для поиска.
+     * @param  int  $perPage  Количество результатов на страницу.
+     * @param  int  $page  Номер страницы.
      */
     public function searchWithPagination(array $filters, int $perPage, int $page): LengthAwarePaginator
     {
@@ -37,10 +35,8 @@ final readonly class BookService implements BookServiceInterface
     /**
      * Сохраняет данные новой книги.
      *
-     * @param array $data Данные новой книги.
-     * @param UploadedFile $image Загруженное изображение книги.
-     *
-     * @return void
+     * @param  array  $data  Данные новой книги.
+     * @param  UploadedFile  $image  Загруженное изображение книги.
      */
     public function store(array $data, UploadedFile $image): void
     {
@@ -55,10 +51,8 @@ final readonly class BookService implements BookServiceInterface
     /**
      * Обновляет данные указанной книги.
      *
-     * @param Book $book Экземпляр книги для обновления.
-     * @param array $data Данные для обновления книги.
-     *
-     * @return bool
+     * @param  Book  $book  Экземпляр книги для обновления.
+     * @param  array  $data  Данные для обновления книги.
      */
     public function update(Book $book, array $data): bool
     {
@@ -75,9 +69,7 @@ final readonly class BookService implements BookServiceInterface
     /**
      * Удаляет указанную книгу.
      *
-     * @param Book $book Экземпляр книги для удаления.
-     *
-     * @return void
+     * @param  Book  $book  Экземпляр книги для удаления.
      */
     public function destroy(Book $book): void
     {
@@ -88,10 +80,8 @@ final readonly class BookService implements BookServiceInterface
     /**
      * Выполняет аренду книги пользователем.
      *
-     * @param int $userId Идентификатор пользователя.
-     * @param Book $book Книга для аренды.
-     *
-     * @return bool
+     * @param  int  $userId  Идентификатор пользователя.
+     * @param  Book  $book  Книга для аренды.
      */
     public function checkOutBook(int $userId, Book $book): bool
     {

@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,8 +43,10 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value) Найти книгу по заголовку.
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value) Найти книгу по дате последнего обновления.
  *
- * @property-read \App\Models\BookCheckout|null $bookCheckout
+ * @property-read \App\Models\BookCheckout|null $bookCheckouts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Genre> $genres
+ * @property-read int|null $book_checkouts_count
+ * @property-read \App\Models\User|null $user
  *
  * @mixin \Eloquent
  */
@@ -92,7 +91,10 @@ final class Book extends Model
 
     public function isCheckedOutByUser(User $user): bool
     {
-        return $this->user()->where('users.id', $user->id)->exists();
+        return $this->bookCheckouts()
+            ->where('user_id', $user->id)
+            ->where('is_returned', false)
+            ->exists();
     }
 
     /**
@@ -121,9 +123,9 @@ final class Book extends Model
         return $this->available > 0;
     }
 
-    public function bookCheckout(): HasOne
+    public function bookCheckouts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasOne(BookCheckout::class);
+        return $this->hasMany(BookCheckout::class);
     }
 
     protected static function booted(): void

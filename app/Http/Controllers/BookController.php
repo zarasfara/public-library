@@ -18,8 +18,7 @@ final class BookController extends Controller
     /**
      * Выполняет аренду книги пользователем.
      *
-     * @param Book $book Книга для аренды.
-     *
+     * @param  Book  $book  Книга для аренды.
      * @return RedirectResponse Редирект на предыдущую страницу.
      */
     public function checkoutBook(Book $book): RedirectResponse

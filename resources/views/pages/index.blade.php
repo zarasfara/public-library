@@ -31,11 +31,15 @@
         </form>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-        @foreach($books as $book)
+        @forelse($books as $book)
             <div class="col">
                 @include('components.card-book', ['book' => $book])
             </div>
-        @endforeach
+        @empty
+            <div class="alert alert-danger" role="alert">
+                Ничего не найдено!
+            </div>
+        @endforelse
     </div>
 
     {{ $books->appends(request()->except('page'))->links() }}

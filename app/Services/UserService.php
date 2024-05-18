@@ -20,8 +20,7 @@ final readonly class UserService implements UserServiceInterface
     /**
      * Создает нового пользователя на основе предоставленных данных.
      *
-     * @param array $userData Данные нового пользователя.
-     *
+     * @param  array  $userData  Данные нового пользователя.
      * @return User Созданный пользователь.
      */
     public function create(array $userData): User

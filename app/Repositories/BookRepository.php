@@ -13,15 +13,12 @@ use Illuminate\Support\Facades\Log;
 
 final readonly class BookRepository implements BookRepositoryInterface
 {
-
     /**
      * Выполняет поиск книг с пагинацией и фильтрацией.
      *
-     * @param array $filterParams Параметры фильтрации.
-     * @param int $perPage Количество результатов на страницу.
-     * @param int $page Номер страницы.
-     *
-     * @return LengthAwarePaginator
+     * @param  array  $filterParams  Параметры фильтрации.
+     * @param  int  $perPage  Количество результатов на страницу.
+     * @param  int  $page  Номер страницы.
      */
     public function searchWithPagination(array $filterParams, int $perPage, int $page): LengthAwarePaginator
     {
@@ -59,10 +56,8 @@ final readonly class BookRepository implements BookRepositoryInterface
     /**
      * Обновляет данные указанной книги.
      *
-     * @param Book $book Экземпляр книги для обновления.
-     * @param array $data Данные для обновления книги.
-     *
-     * @return bool
+     * @param  Book  $book  Экземпляр книги для обновления.
+     * @param  array  $data  Данные для обновления книги.
      */
     public function update(Book $book, array $data): bool
     {
@@ -74,8 +69,7 @@ final readonly class BookRepository implements BookRepositoryInterface
     /**
      * Создает новую книгу на основе предоставленных данных.
      *
-     * @param array $data Данные для создания книги.
-     *
+     * @param  array  $data  Данные для создания книги.
      * @return Book Созданный экземпляр книги.
      */
     public function create(array $data): Book
@@ -86,9 +80,7 @@ final readonly class BookRepository implements BookRepositoryInterface
     /**
      * Удаляет указанную книгу.
      *
-     * @param Book $book Экземпляр книги для удаления.
-     *
-     * @return void
+     * @param  Book  $book  Экземпляр книги для удаления.
      */
     public function destroy(Book $book): void
     {
@@ -98,10 +90,9 @@ final readonly class BookRepository implements BookRepositoryInterface
     /**
      * Арендует указанную книгу пользователем.
      *
-     * @param int $userId Идентификатор пользователя.
-     * @param Book $book Экземпляр книги для аренды.
+     * @param  int  $userId  Идентификатор пользователя.
+     * @param  Book  $book  Экземпляр книги для аренды.
      *
-     * @return bool
      * @throws \Throwable
      */
     public function checkOutBook(int $userId, Book $book): bool
@@ -113,7 +104,7 @@ final readonly class BookRepository implements BookRepositoryInterface
                 /**
                  * @var BookCheckout $checkout
                  */
-                $checkout = $book->bookCheckout()->create([
+                $checkout = $book->bookCheckouts()->create([
                     'user_id' => $userId,
                     'return_date' => now()->addMonth(),
                 ]);

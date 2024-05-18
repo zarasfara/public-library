@@ -1,8 +1,8 @@
 @extends('layouts.base')
 
-@php
-    use Illuminate\Support\Facades\Auth;
-@endphp
+@use(Illuminate\Support\Facades\Auth)
+
+@section('title', 'Личный кабинет')
 
 @section('content')
     <div class="row g-5">
@@ -72,19 +72,38 @@
             </form>
             <h2>Взятые книги</h2>
             <ul class="list-group">
-                @foreach(Auth::user()->books as $book)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                @forelse(Auth::user()->reservedBooks as $book)
+                    <li class="list-group-item">
                         <span>{{ $book->title }}</span>
-                        <span class="badge {{ $book->bookCheckout->isOverdue() ? 'bg-danger' : 'bg-secondary' }}">
-                        @if ($book->bookCheckout->isOverdue())
-                                <span>Просрочено</span>
-                        @else
-                            <span>Вернуть к {{ $book->bookCheckout->return_date->format('d.m.Y')}}</span>
-                        @endif
-                        </span>
+                        <ol class="list-group-numbered">
+                            @foreach($book->bookCheckouts as $bookCheckout)
+                                @if($bookCheckout->is_returned)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-success">Вернута</span>
+                                    </li>
+                                @else
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span
+                                            class="badge {{ $bookCheckout->isOverdue() ? 'bg-danger' : 'bg-secondary' }}">
+                                        @if($bookCheckout->isOverdue())
+                                            Просрочено
+                                        @else
+                                            Вернуть к {{ $bookCheckout->return_date->format('d.m.Y')}}
+                                        @endif
+                                        </span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ol>
                     </li>
-                @endforeach
+                @empty
+                    <div class="alert alert-danger" role="alert">
+                        Вы ничего не оформляли
+                    </div>
+                @endforelse
             </ul>
         </div>
     </div>
 @endsection
+
+

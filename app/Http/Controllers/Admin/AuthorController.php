@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Класс AuthorController
- *
- * @package App\Http\Controllers\Admin
  */
 final class AuthorController extends Controller
 {
@@ -52,8 +50,7 @@ final class AuthorController extends Controller
     /**
      * Сохраняет вновь созданный ресурс в хранилище.
      *
-     * @param StoreAuthorRequest $request Объект запроса.
-     *
+     * @param  StoreAuthorRequest  $request  Объект запроса.
      * @return RedirectResponse Редирект на страницу.
      */
     public function store(StoreAuthorRequest $request): RedirectResponse
@@ -73,8 +70,7 @@ final class AuthorController extends Controller
     /**
      * Отображает форму редактирования указанного автора.
      *
-     * @param \App\Models\Author $author Экземпляр автора для редактирования.
-     *
+     * @param  \App\Models\Author  $author  Экземпляр автора для редактирования.
      * @return View Вид для редактирования автора.
      */
     public function edit(Author $author): View
@@ -85,9 +81,8 @@ final class AuthorController extends Controller
     /**
      * Обновляет указанный ресурс в хранилище.
      *
-     * @param \App\Models\Author $author Экземпляр автора для обновления.
-     * @param UpdateAuthorRequest $request Объект запроса.
-     *
+     * @param  \App\Models\Author  $author  Экземпляр автора для обновления.
+     * @param  UpdateAuthorRequest  $request  Объект запроса.
      * @return RedirectResponse Редирект на страницу.
      */
     public function update(Author $author, UpdateAuthorRequest $request): RedirectResponse
@@ -104,8 +99,7 @@ final class AuthorController extends Controller
     /**
      * Удаляет указанный ресурс из хранилища.
      *
-     * @param \App\Models\Author $author Экземпляр автора для удаления.
-     *
+     * @param  \App\Models\Author  $author  Экземпляр автора для удаления.
      * @return RedirectResponse Редирект на страницу.
      */
     public function destroy(Author $author): RedirectResponse
