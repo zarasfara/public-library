@@ -8,7 +8,8 @@ Clone the repo locally:
 git clone git@github.com:zarasfara/public-library.git
 ```
 
-Run command:
+run this command
+
 ```shell
 make init
 ```
@@ -21,14 +22,19 @@ Run this command to build containers:
 docker compose up -d --build
 ```
 
-In container with app run:
+next you have to run this command and copy container id with php-fpm:
 
 ```shell
-make run
+docker ps
 ```
+
+then run:
+
 ```shell
-php artisan migrate --seed
+docker exec -it <container-id> make run
 ```
+
+the server is available at http://localhost:50000/
 
 Admin user:
 1. name - eugene
