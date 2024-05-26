@@ -91,10 +91,9 @@ final class Book extends Model
 
     public function isCheckedOutByUser(User $user): bool
     {
-        return $this->bookCheckouts()
-            ->where('user_id', $user->id)
-            ->where('is_returned', false)
-            ->exists();
+        return $this->bookCheckouts->contains(function ($checkout) use ($user) {
+            return $checkout->user_id == $user->id && !$checkout->is_returned;
+        });
     }
 
     /**

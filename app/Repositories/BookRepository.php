@@ -22,15 +22,18 @@ final readonly class BookRepository implements BookRepositoryInterface
      */
     public function searchWithPagination(array $filterParams, int $perPage, int $page): LengthAwarePaginator
     {
-        $booksQuery = Book::query();
+        $booksQuery = Book::query()
+            ->with(['author', 'bookCheckouts' => function ($query) {
+                $query->where('is_returned', false);
+            }]);
 
         $conditions = [
             'title' => function ($query, $value) {
-                $query->where('title', 'like', '%'.$value.'%');
+                $query->whereRaw('LOWER(title) LIKE ?', '%' . mb_strtolower($value) . '%');
             },
             'author' => function ($query, $value) {
                 $query->whereHas('author', function ($query) use ($value) {
-                    $query->whereRaw("CONCAT_WS(' ', first_name, last_name, patronymic) LIKE ?", ['%'.$value.'%']);
+                    $query->whereRaw("LOWER(CONCAT_WS(' ', first_name, last_name, patronymic)) LIKE ?", '%' . mb_strtolower($value) . '%');
                 });
             },
             'genres' => function ($query, $value) {
