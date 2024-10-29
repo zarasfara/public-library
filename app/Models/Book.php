@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Модель книги.
- *
+ * 
  * Этот класс представляет собой модель книги в системе. Он содержит информацию
  * о заголовке, описании, авторе, наличии и изображении книги. Также он имеет
  * отношения с жанрами книги.
@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\Storage;
  * @property-read \App\Models\Author $author Автор книги.
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Genre> $genres Список жанров книги.
  * @property-read int|null $genres_count Количество жанров книги.
- *
  * @method static \Database\Factories\BookFactory factory($count = null, $state = []) Создать новый экземпляр фабрики модели для тестирования.
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery() Создать новый экземпляр запроса модели.
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery() Создать новый экземпляр запроса модели.
@@ -42,12 +41,10 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereImage($value) Найти книгу по изображению.
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value) Найти книгу по заголовку.
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value) Найти книгу по дате последнего обновления.
- *
  * @property-read \App\Models\BookCheckout|null $bookCheckouts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Genre> $genres
  * @property-read int|null $book_checkouts_count
  * @property-read \App\Models\User|null $user
- *
  * @mixin \Eloquent
  */
 final class Book extends Model
@@ -65,6 +62,7 @@ final class Book extends Model
         'author_id',
         'available',
         'image',
+        'price'
     ];
 
     /**

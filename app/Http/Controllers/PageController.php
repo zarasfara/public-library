@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Genre;
 use App\Services\Interfaces\BookServiceInterface;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
 final class PageController extends Controller
@@ -45,5 +48,10 @@ final class PageController extends Controller
             'books' => $books,
             'genres' => Genre::all(),
         ]);
+    }
+
+    public function bookShow(Book $book): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('pages.book-detail', compact('book'));
     }
 }

@@ -33,7 +33,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
         @forelse($books as $book)
             <div class="col">
-                @include('components.card-book', ['book' => $book])
+                @include('components.card-book', $book)
             </div>
         @empty
             <div class="alert alert-danger" role="alert">
