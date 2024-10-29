@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int $book_id
@@ -18,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Book $book
  * @property-read \App\Models\User $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout query()
@@ -29,7 +30,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BookCheckout whereIsReturned($value)
- *
  * @mixin \Eloquent
  */
 final class BookCheckout extends Model

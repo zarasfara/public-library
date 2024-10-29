@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
 
+Route::get('/books/{book}', [PageController::class, 'bookShow'])->name('books.details');
+
 Route::prefix('login')->group(function () {
     Route::view('/', 'pages.login')->name('login.form');
     Route::post('/', [AuthController::class, 'signIn'])->name('login');
