@@ -21,27 +21,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PageController::class, 'index'])->name('home');
+Route::middleware('trackVisitors')->group(function () {
+    Route::get('/', [PageController::class, 'index'])->name('home');
+    Route::get('/books/{book}', [PageController::class, 'bookShow'])->name('books.details');
 
-Route::get('/books/{book}', [PageController::class, 'bookShow'])->name('books.details');
+    Route::prefix('login')->group(function () {
+        Route::view('/', 'pages.login')->name('login.form');
+        Route::post('/', [AuthController::class, 'signIn'])->name('login');
+    });
 
-Route::prefix('login')->group(function () {
-    Route::view('/', 'pages.login')->name('login.form');
-    Route::post('/', [AuthController::class, 'signIn'])->name('login');
-});
-
-Route::prefix('register')->group(function () {
-    Route::view('/', 'pages.register')->name('register.form');
-    Route::post('/', [AuthController::class, 'signUp'])->name('register');
+    Route::prefix('register')->group(function () {
+        Route::view('/', 'pages.register')->name('register.form');
+        Route::post('/', [AuthController::class, 'signUp'])->name('register');
+    });
 });
 
 Route::post('/logout', [AuthController::class, 'signOut'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
-    Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
 
-    Route::post('/checkout-book/{book}', [BookController::class, 'checkoutBook'])->name('checkout.book');
+    Route::middleware('trackVisitors')->group(function () {
+        Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+        Route::put('/update-profile', [AuthController::class, 'updateProfile'])->name('update.profile');
+
+        Route::post('/checkout-book/{book}', [BookController::class, 'checkoutBook'])->name('checkout.book');
+    });
 
     Route::middleware(['isEmployee'])->group(function () {
         Route::prefix('admin')->group(function () {
@@ -51,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/checkouts', [BookCheckoutController::class, 'index'])->name('checkouts.index');
             Route::put('/checkouts/extend-checkout/{bookCheckout}', [BookCheckoutController::class, 'extendCheckout'])->name('checkouts.extend');
             Route::put('/checkouts/return-checkout/{bookCheckout}', [BookCheckoutController::class, 'returnBook'])->name('checkouts.return');
+            Route::get('/test', [\App\Http\Controllers\VisitorStatController::class, 'index'])->name('test');
 
             Route::get('/', function () {
                 return view('admin.pages.index');
