@@ -4,6 +4,23 @@
 @section('heading', 'Посещения')
 
 @section('content')
+    <form class="w-50" method="get">
+        <div class="form-group row">
+            <div class="col">
+                <label for="weeks">Период в неделях</label>
+                <input type="number" class="form-control" id="weeks" name="number_passed_weeks" placeholder="Напр., 4" min="1" value="4">
+            </div>
+            <div class="col">
+                <label for="visitor-stats">Метод предсказания</label>
+                <select class="custom-select form-control-border" id="visitor-stats" name="prediction_method">
+                    <option value="simple" selected>Простое скользящее среднее</option>
+                    <option value="exponential">Экспоненциальное скользящее среднее</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Подтвердить</button>
+    </form>
+
     <canvas id="visitors-chart"></canvas>
 @endsection
 

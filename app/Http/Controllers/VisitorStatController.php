@@ -2,35 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use App\Models\VisitorStat;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
 final class VisitorStatController extends Controller
 {
-    public function index(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function index(Request $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $visitorStats = DB::table('visitor_stats')
+        $numberPassedWeeks = (int)$request->query('number_passed_weeks', 4);
+
+        // Получаем данные для графика
+        $visitorStats = VisitorStat::query()
             ->orderBy('week_start', 'desc')
-            ->limit(4)
+            ->limit($numberPassedWeeks)
             ->get(['week_start', 'visitors'])
             ->reverse();
 
-        $labels = $visitorStats->pluck('week_start')->map(function ($date) {
-            return date('W', strtotime($date));
-        })->toArray();
-
+        $labels = $visitorStats->pluck('week_start')->map(fn($date) => date('W', strtotime($date)))->toArray();
         $visitorData = $visitorStats->pluck('visitors')->toArray();
 
-        $forecast = round(collect($visitorData)->avg());
+        $predictionMethod = $request->query('prediction_method', 'simple');
+
+        $forecast = match ($predictionMethod) {
+            'exponential' => VisitorStat::exponentialMovingAverage(weeks: $numberPassedWeeks),
+            default => VisitorStat::simpleMovingAverage($numberPassedWeeks),
+        };
+
         $visitorData[] = $forecast;
-        $labels[] = 'Forecast';
+        $labels[] = 'Предсказанное';
 
         return view('admin.pages.visitors.index', [
             'labels' => json_encode($labels),
             'visitorData' => json_encode($visitorData),
-            'forecast' => $forecast
+            'forecast' => $forecast,
+            'predictionMethod' => $predictionMethod,
         ]);
     }
 }
