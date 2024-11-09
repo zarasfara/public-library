@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Модель автора книги.
- * 
+ *
  * Этот класс представляет собой модель автора книги в системе. Он содержит
  * информацию о фамилии, имени и отчестве автора, а также связь с книгами,
  * которые им написаны.
@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $patronymic Отчество автора.
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books Список книг, написанных автором.
  * @property-read int|null $books_count Количество книг, написанных автором.
+ *
  * @method static \Database\Factories\AuthorFactory factory($count = null, $state = []) Создать новый экземпляр фабрики модели для тестирования.
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery() Создать новый экземпляр запроса модели.
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery() Создать новый экземпляр запроса модели.
@@ -29,7 +30,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value) Найти автора по идентификатору.
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastName($value) Найти автора по фамилии.
  * @method static \Illuminate\Database\Eloquent\Builder|Author wherePatronymic($value) Найти автора по отчеству.
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ *
  * @mixin \Eloquent
  */
 final class Author extends Model

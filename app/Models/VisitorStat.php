@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
- *
  * @property int $id
  * @property string $week_start
  * @property int $visitors
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|VisitorStat newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|VisitorStat newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|VisitorStat query()
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|VisitorStat whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|VisitorStat whereVisitors($value)
  * @method static \Illuminate\Database\Eloquent\Builder|VisitorStat whereWeekStart($value)
+ *
  * @mixin \Eloquent
  */
 final class VisitorStat extends Model
@@ -37,8 +39,8 @@ final class VisitorStat extends Model
      * Этот метод берет последние `$weeks` значений, суммирует их и делит на количество значений.
      * Используется для усреднения значений без учета весов.
      *
-     * @param int $weeks Количество недель, по которым будет рассчитано скользящее среднее.
-     *                   По умолчанию значение равно 4, что позволяет взять последние 4 недели.
+     * @param  int  $weeks  Количество недель, по которым будет рассчитано скользящее среднее.
+     *                      По умолчанию значение равно 4, что позволяет взять последние 4 недели.
      * @return int Прогнозируемое значение количества посещений на основе простого скользящего среднего.
      */
     public static function simpleMovingAverage(int $weeks = 4): int
@@ -50,7 +52,7 @@ final class VisitorStat extends Model
             ->pluck('visitors')
             ->toArray();
 
-        return round(array_sum($visitorData) / count($visitorData));
+        return (int)round(array_sum($visitorData) / count($visitorData), PHP_ROUND_HALF_DOWN);
     }
 
     /**
@@ -62,10 +64,10 @@ final class VisitorStat extends Model
      *  EMA(t) = alpha * Value(t) + (1 - alpha) * EMA(t - 1),
      * где `EMA(t)` - значение экспоненциального среднего на текущей неделе, а `Value(t)` - посещения на текущей неделе.
      *
-     * @param float $alpha Коэффициент сглаживания (от 0 до 1), где большее значение означает больший вес для последних данных.
-     *                     Например, значение 0.5 означает, что вес данных убывает с каждой неделей, что делает расчет чувствительным к последним изменениям.
-     * @param int $weeks Количество недель, по которым будет рассчитано экспоненциальное скользящее среднее.
-     *                   По умолчанию значение равно 4, что позволяет взять последние 4 недели.
+     * @param  float  $alpha  Коэффициент сглаживания (от 0 до 1), где большее значение означает больший вес для последних данных.
+     *                        Например, значение 0.5 означает, что вес данных убывает с каждой неделей, что делает расчет чувствительным к последним изменениям.
+     * @param  int  $weeks  Количество недель, по которым будет рассчитано экспоненциальное скользящее среднее.
+     *                      По умолчанию значение равно 4, что позволяет взять последние 4 недели.
      * @return int Прогнозируемое значение количества посещений на основе экспоненциального скользящего среднего.
      */
     public static function exponentialMovingAverage(float $alpha = 0.5, int $weeks = 4): int
@@ -85,7 +87,6 @@ final class VisitorStat extends Model
             $forecast = $alpha * $value + (1 - $alpha) * $forecast;
         }
 
-        return round($forecast);
+        return (int)round($forecast, PHP_ROUND_HALF_DOWN);
     }
 }
-

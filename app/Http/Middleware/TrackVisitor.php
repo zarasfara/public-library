@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
 use App\Models\VisitorStat;
 use Carbon\Carbon;
+use Closure;
+use Illuminate\Http\Request;
 
 final class TrackVisitor
 {
@@ -36,4 +38,3 @@ final class TrackVisitor
         return $next($request);
     }
 }
-

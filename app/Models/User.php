@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Модель пользователя.
- * 
+ *
  * Этот класс представляет собой модель пользователя в системе. Он расширяет
  * стандартную модель Authenticatable для аутентификации и имеет поддержку
  * ролей и разрешений с использованием пакета Spatie/Permission. Также он
@@ -39,6 +39,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $permissions_count Количество разрешений пользователя.
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles Коллекция ролей пользователя.
  * @property-read int|null $roles_count Количество ролей пользователя.
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = []) Создать новый экземпляр фабрики модели для тестирования.
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery() Создать новый экземпляр запроса модели.
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery() Создать новый экземпляр запроса модели.
@@ -56,6 +57,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value) Найти пользователя по дате последнего обновления.
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions) Поиск пользователей без указанных разрешений.
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null) Поиск пользователей без указанных ролей.
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $reservedBooks
  * @property-read int|null $books_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -63,6 +65,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $reserved_books_count
+ *
  * @mixin \Eloquent
  */
 final class User extends Authenticatable implements MustVerifyEmail

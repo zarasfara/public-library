@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\VisitorStat;
@@ -12,7 +14,7 @@ final class VisitorStatController extends Controller
 {
     public function index(Request $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $numberPassedWeeks = (int)$request->query('number_passed_weeks', 4);
+        $numberPassedWeeks = (int) $request->query('number_passed_weeks', 4);
 
         // Получаем данные для графика
         $visitorStats = VisitorStat::query()
@@ -21,7 +23,7 @@ final class VisitorStatController extends Controller
             ->get(['week_start', 'visitors'])
             ->reverse();
 
-        $labels = $visitorStats->pluck('week_start')->map(fn($date) => date('W', strtotime($date)))->toArray();
+        $labels = $visitorStats->pluck('week_start')->map(fn ($date) => date('W', strtotime($date)))->toArray();
         $visitorData = $visitorStats->pluck('visitors')->toArray();
 
         $predictionMethod = $request->query('prediction_method', 'simple');

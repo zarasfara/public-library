@@ -29,11 +29,11 @@ final readonly class BookRepository implements BookRepositoryInterface
 
         $conditions = [
             'title' => function ($query, $value) {
-                $query->whereRaw('LOWER(title) LIKE ?', '%' . mb_strtolower($value) . '%');
+                $query->whereRaw('LOWER(title) LIKE ?', '%'.mb_strtolower($value).'%');
             },
             'author' => function ($query, $value) {
                 $query->whereHas('author', function ($query) use ($value) {
-                    $query->whereRaw("LOWER(CONCAT_WS(' ', first_name, last_name, patronymic)) LIKE ?", '%' . mb_strtolower($value) . '%');
+                    $query->whereRaw("LOWER(CONCAT_WS(' ', first_name, last_name, patronymic)) LIKE ?", '%'.mb_strtolower($value).'%');
                 });
             },
             'genres' => function ($query, $value) {

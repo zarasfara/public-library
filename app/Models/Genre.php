@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Модель жанра книги.
- * 
+ *
  * Этот класс представляет собой модель жанра книги в системе. Он содержит
  * информацию о названии жанра и имеет отношение "один ко многим" с моделью
  * книги, чтобы указать книги, принадлежащие данному жанру.
@@ -19,12 +19,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name Название жанра.
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books Список книг, относящихся к данному жанру.
  * @property-read int|null $books_count Количество книг, относящихся к данному жанру.
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Genre newModelQuery() Создать новый экземпляр запроса модели.
  * @method static \Illuminate\Database\Eloquent\Builder|Genre newQuery() Создать новый экземпляр запроса модели.
  * @method static \Illuminate\Database\Eloquent\Builder|Genre query() Создать новый экземпляр запроса модели.
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereId($value) Найти жанр по идентификатору.
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereName($value) Найти жанр по названию.
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ *
  * @mixin \Eloquent
  */
 final class Genre extends Model

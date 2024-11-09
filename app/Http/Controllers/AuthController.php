@@ -42,7 +42,7 @@ final class AuthController extends Controller
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
-            return to_route('dashboard')->with('success', __('messages.success_login'));
+            return redirect()->intended(route('dashboard'))->with('success', __('messages.success_login'));
         } else {
             return back()->withErrors([
                 'error' => __('messages.incorrect_credentials'),
