@@ -18,19 +18,26 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
-                    <h2 class="name">{{$book->title}}</h2>
+                    <h2 class="name">Название: {{$book->title}}</h2>
                     <hr>
                     <h3 class="price-container"> Автор: {{$book->author->getFullName()}}</h3>
                     <hr>
                     <div class="description description-tabs">
-                        <ul id="myTab" class="nav nav-pills">
-                            <p>{{$book->description}}</p>
-                        </ul>
+                        <p>Описание: {{$book->description}}</p>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-6"><a href="javascript:void(0);"
-                                                                    class="btn btn-success btn-lg">Оформить</a></div>
+                        @if($book->isAvailable())
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <a href="javascript:void(0);"
+                                   class="btn btn-success btn-lg">Оформить</a>
+                            </div>
+                        @else
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <button disabled class="btn btn-success btn-lg">Недоступно</button>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
