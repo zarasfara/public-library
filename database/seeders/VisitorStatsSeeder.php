@@ -18,7 +18,7 @@ class VisitorStatsSeeder extends Seeder
     {
         DB::table('visitor_stats')->truncate();
 
-        for ($i = 3; $i > 0; $i--) {
+        for ($i = 6; $i > 0; $i--) {
             $weekStart = Carbon::now()->subWeeks($i)->startOfWeek();
 
             VisitorStat::create([

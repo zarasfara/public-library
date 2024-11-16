@@ -5,10 +5,10 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookCheckoutController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
+use App\Http\Controllers\Admin\VisitorStatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\VisitorStatController;
 use Illuminate\Support\Facades\Route;
 
 /*

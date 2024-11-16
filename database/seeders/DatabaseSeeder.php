@@ -39,5 +39,7 @@ class DatabaseSeeder extends Seeder
         $user->assignRole($administrator);
 
         $this->call(BookGenreSeeder::class);
+
+        $this->call(VisitorStatsSeeder::class);
     }
 }
