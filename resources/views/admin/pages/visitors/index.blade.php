@@ -13,13 +13,15 @@
             <div class="col">
                 <label for="visitor-stats">Метод предсказания</label>
                 <select class="custom-select form-control-border" id="visitor-stats" name="prediction_method">
-                    <option value="simple" selected>Простое скользящее среднее</option>
-                    <option value="exponential">Экспоненциальное скользящее среднее</option>
+                    <option value="simple" {{ $predictionMethod === 'simple' ? 'selected' : '' }}>Простое скользящее среднее</option>
+                    <option value="exponential" {{ $predictionMethod === 'exponential' ? 'selected' : '' }}>Экспоненциальное скользящее среднее</option>
                 </select>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Подтвердить</button>
     </form>
+
+    <h3>Средняя относительная ошибка: {{ number_format($averageRelativeError, 2) }}%</h3>
 
     <canvas id="visitors-chart"></canvas>
 @endsection
@@ -40,18 +42,8 @@
                 datasets: [{
                     label: 'Количество посетителей',
                     data: visitorData,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
                 }]
             },

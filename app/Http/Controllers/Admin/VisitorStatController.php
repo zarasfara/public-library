@@ -15,32 +15,44 @@ final class VisitorStatController extends Controller
 {
     public function index(Request $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
+        // Получаем количество недель, для которых нужно вычислить прогноз
         $numberPassedWeeks = (int) $request->query('number_passed_weeks', 4);
 
-        // Получаем данные для графика
+        // Получаем статистику за последние N недель
         $visitorStats = VisitorStat::query()
-            ->orderBy('week_start', 'desc')
+            ->orderBy('week_start', 'desc') // Сортировка по убыванию даты
             ->limit($numberPassedWeeks)
-            ->get(['week_start', 'visitors'])
-            ->reverse();
+            ->get(['week_start', 'visitors']);
 
+        $visitorStats = $visitorStats->reverse();
+
+        // Извлекаем недели и данные посещаемости без реверсирования для расчёта
         $labels = $visitorStats->pluck('week_start')->map(fn ($date) => date('W', strtotime($date)))->toArray();
         $visitorData = $visitorStats->pluck('visitors')->toArray();
 
-        $predictionMethod = $request->query('prediction_method', 'simple');
+        // Получаем метод прогноза, если не указан — используем стандартный
+        $predictionMethod = $request->query('prediction_method', VisitorStat::SIMPLE_PREDICTION_METHOD);
 
+        // Рассчитываем прогноз в зависимости от выбранного метода
         $forecast = match ($predictionMethod) {
-            'exponential' => VisitorStat::exponentialMovingAverage(weeks: $numberPassedWeeks),
-            default => VisitorStat::simpleMovingAverage($numberPassedWeeks),
+            VisitorStat::EXPONENTIAL_PREDICTION_METHOD => VisitorStat::calculateExponentialMovingAverage($visitorData),
+            default => VisitorStat::calculateSimpleMovingAverage($visitorData, 3),
         };
 
-        $visitorData[] = $forecast;
-        $labels[] = 'Предсказанное';
+        // Реверсируем массивы для корректного отображения в графике
+        $reversedLabels = array_reverse($labels);
+        $reversedVisitorData = array_reverse($visitorData);
 
+        // Добавляем предсказанное значение в массив данных и меток
+        $reversedVisitorData[] = $forecast['forecast'];
+        $reversedLabels[] = 'Предсказанное';
+
+        // Возвращаем данные в представление (график)
         return view('admin.pages.visitors.index', [
-            'labels' => json_encode($labels),
-            'visitorData' => json_encode($visitorData),
-            'forecast' => $forecast,
+            'labels' => json_encode($reversedLabels),
+            'visitorData' => json_encode($reversedVisitorData),
+            'forecast' => $forecast['forecast'],
+            'averageRelativeError' => $forecast['average_relative_error'],
             'predictionMethod' => $predictionMethod,
         ]);
     }

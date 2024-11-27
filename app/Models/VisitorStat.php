@@ -1,10 +1,11 @@
 <?php
 
+/** @noinspection PhpUnnecessaryStaticReferenceInspection */
+
 declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,7 +28,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class VisitorStat extends Model
 {
-    use HasFactory;
+    public const string SIMPLE_PREDICTION_METHOD = 'simple';
+
+    public const string EXPONENTIAL_PREDICTION_METHOD = 'exponential';
 
     protected $fillable = [
         'week_start',
@@ -35,58 +38,104 @@ final class VisitorStat extends Model
     ];
 
     /**
-     * Вычисляет простое скользящее среднее на основе данных о посещениях за несколько недель.
-     * Этот метод берет последние `$weeks` значений, суммирует их и делит на количество значений.
-     * Используется для усреднения значений без учета весов.
+     * Простое скользящее среднее.
      *
-     * @param  int  $weeks  Количество недель, по которым будет рассчитано скользящее среднее.
-     *                      По умолчанию значение равно 4, что позволяет взять последние 4 недели.
-     * @return int Прогнозируемое значение количества посещений на основе простого скользящего среднего.
+     * Этот метод рассчитывает прогнозное значение (forecast) на основе простого
+     * скользящего среднего за заданный период, а также вычисляет среднюю относительную
+     * ошибку (average_relative_error) между фактическими и прогнозными данными.
+     *
+     * @param  array  $data  Массив фактических данных.
+     * @param  int  $period  Период для расчета скользящего среднего (количество элементов).
+     * @return array{'forecast': int, "average_relative_error": float} Ассоциативный массив с двумя ключами:
+     *                                                                 - 'forecast': Предсказанное значение на основе скользящего среднего.
+     *                                                                 - 'average_relative_error': Средняя относительная ошибка между
+     *                                                                 фактическими и прогнозными данными.
      */
-    public static function simpleMovingAverage(int $weeks = 4): int
+    public static function calculateSimpleMovingAverage(array $data, int $period): array
     {
-        /* @var $visitorData int[] */
-        $visitorData = self::query()
-            ->orderBy('week_start', 'desc')
-            ->limit($weeks)
-            ->pluck('visitors')
-            ->toArray();
+        $forecast = []; // Массив для хранения прогнозных значений.
+        $count = count($data); // Общее количество элементов в массиве данных.
 
-        return (int)round(array_sum($visitorData) / count($visitorData), PHP_ROUND_HALF_DOWN);
+        // Проходим по каждому элементу массива данных.
+        for ($i = $period - 1; $i < $count; $i++) {
+            // Извлекаем последние $period элементов массива, начиная с текущего индекса.
+            $window = array_slice($data, $i - $period + 1, $period);
+
+            // Считаем сумму элементов в окне и делим на период для получения среднего.
+            $sum = array_sum($window);
+            $forecast[] = $sum / $period; // Добавляем среднее значение в прогнозный массив.
+        }
+
+        // Берем последнее предсказанное значение в массиве прогноза.
+        $predicted = end($forecast);
+
+        // Возвращаем результат в виде ассоциативного массива.
+        return [
+            'forecast' => $predicted, // Прогнозируемое значение.
+            'average_relative_error' => self::calculateAverageRelativeError($data, $forecast), // Средняя относительная ошибка.
+        ];
     }
 
     /**
-     * Вычисляет экспоненциальное скользящее среднее на основе данных о посещениях за несколько недель.
-     * Этот метод применяет сглаживание к данным, придавая большее значение недавним записям.
-     * Коэффициент сглаживания `$alpha` определяет, насколько сильно учитываются последние значения.
+     * Экспоненциальное скользящее среднее (EMA).
      *
-     * Прогноз рассчитывается по формуле:
-     *  EMA(t) = alpha * Value(t) + (1 - alpha) * EMA(t - 1),
-     * где `EMA(t)` - значение экспоненциального среднего на текущей неделе, а `Value(t)` - посещения на текущей неделе.
+     * Этот метод рассчитывает прогнозное значение (forecast) на основе экспоненциального
+     * скользящего среднего. Оно учитывает как текущее значение, так и предыдущие значения
+     * с использованием коэффициента сглаживания (alpha).
+     * Также метод вычисляет среднюю относительную ошибку (average_relative_error).
      *
-     * @param  float  $alpha  Коэффициент сглаживания (от 0 до 1), где большее значение означает больший вес для последних данных.
-     *                        Например, значение 0.5 означает, что вес данных убывает с каждой неделей, что делает расчет чувствительным к последним изменениям.
-     * @param  int  $weeks  Количество недель, по которым будет рассчитано экспоненциальное скользящее среднее.
-     *                      По умолчанию значение равно 4, что позволяет взять последние 4 недели.
-     * @return int Прогнозируемое значение количества посещений на основе экспоненциального скользящего среднего.
+     * @param  array  $data  Массив фактических данных.
+     * @param  float  $alpha  Коэффициент сглаживания (от 0 до 1), по умолчанию 0.5.
+     *                        Чем выше alpha, тем больше влияние текущих данных.
+     * @return array{forecast: int, average_relative_error:float } Ассоциативный массив с двумя ключами:
+     *                                                             - 'forecast': Прогнозируемое значение на основе EMA.
+     *                                                             - 'average_relative_error': Средняя относительная ошибка между
+     *                                                             фактическими и прогнозными данными.
      */
-    public static function exponentialMovingAverage(float $alpha = 0.5, int $weeks = 4): int
+    public static function calculateExponentialMovingAverage(array $data, float $alpha = 0.5): array
     {
-        /* @var $visitorData int[] */
-        $visitorData = self::query()
-            ->orderBy('week_start', 'desc')
-            ->limit($weeks)
-            ->pluck('visitors')
-            ->reverse() // Реверс для начала с самого старого значения
-            ->toArray();
+        $ema = []; // Массив для хранения экспоненциального скользящего среднего.
 
-        // Начальное значение прогноза устанавливается как первый элемент массива (самая ранняя неделя)
-        $forecast = $visitorData[0];
+        // Первое значение EMA равно первому элементу исходных данных.
+        $ema[0] = $data[0];
 
-        foreach ($visitorData as $value) {
-            $forecast = $alpha * $value + (1 - $alpha) * $forecast;
+        // Проходим по массиву данных, начиная со второго элемента.
+        for ($i = 1; $i < count($data); $i++) {
+            // Вычисляем EMA: alpha * текущее значение + (1 - alpha) * предыдущее EMA.
+            $ema[] = $alpha * $data[$i] + (1 - $alpha) * $ema[$i - 1];
         }
 
-        return (int)round($forecast, PHP_ROUND_HALF_DOWN);
+        // Берем последнее значение EMA как прогноз.
+        $predicted = end($ema);
+
+        return [
+            'forecast' => $predicted, // Прогнозируемое значение (EMA последнего периода).
+            'average_relative_error' => self::calculateAverageRelativeError($data, $ema), // Средняя относительная ошибка.
+        ];
+    }
+
+    /**
+     * Расчет относительных ошибок.
+     */
+    private static function calculateRelativeErrors(array $actual, array $predicted): array
+    {
+        $errors = [];
+        foreach ($actual as $index => $value) {
+            if (isset($predicted[$index])) {
+                $errors[] = abs($value - $predicted[$index]) / $value * 100;
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Средняя относительная ошибка.
+     */
+    private static function calculateAverageRelativeError(array $actual, array $predicted): float
+    {
+        $errors = self::calculateRelativeErrors($actual, $predicted);
+
+        return array_sum($errors) / count($errors);
     }
 }
