@@ -44,8 +44,8 @@ final class VisitorStat extends Model
      * скользящего среднего за заданный период, а также вычисляет среднюю относительную
      * ошибку (average_relative_error) между фактическими и прогнозными данными.
      *
-     * @param  array  $data  Массив фактических данных.
-     * @param  int  $period  Период для расчета скользящего среднего (количество элементов).
+     * @param array $data Массив фактических данных.
+     * @param int $period Период для расчета скользящего среднего (количество элементов).
      * @return array{'forecast': int, "average_relative_error": float} Ассоциативный массив с двумя ключами:
      *                                                                 - 'forecast': Предсказанное значение на основе скользящего среднего.
      *                                                                 - 'average_relative_error': Средняя относительная ошибка между
@@ -53,6 +53,7 @@ final class VisitorStat extends Model
      */
     public static function calculateSimpleMovingAverage(array $data, int $period): array
     {
+        $data = [63, 95, 115, 164, 183, 221, 258];
         $forecast = []; // Массив для хранения прогнозных значений.
         $count = count($data); // Общее количество элементов в массиве данных.
 
@@ -66,10 +67,10 @@ final class VisitorStat extends Model
             $forecast[] = $sum / $period; // Добавляем среднее значение в прогнозный массив.
         }
 
-        // Берем последнее предсказанное значение в массиве прогноза.
-        $predicted = end($forecast);
+        $lastPrediction = round(end($forecast));
 
-        // Возвращаем результат в виде ассоциативного массива.
+        $predicted = $lastPrediction + (1 / $period) * ($data[$count - 1] - $data[$count - 2]);
+
         return [
             'forecast' => $predicted, // Прогнозируемое значение.
             'average_relative_error' => self::calculateAverageRelativeError($data, $forecast), // Средняя относительная ошибка.
@@ -84,8 +85,8 @@ final class VisitorStat extends Model
      * с использованием коэффициента сглаживания (alpha).
      * Также метод вычисляет среднюю относительную ошибку (average_relative_error).
      *
-     * @param  array  $data  Массив фактических данных.
-     * @param  float  $alpha  Коэффициент сглаживания (от 0 до 1), по умолчанию 0.5.
+     * @param array $data Массив фактических данных.
+     * @param float $alpha Коэффициент сглаживания (от 0 до 1), по умолчанию 0.5.
      *                        Чем выше alpha, тем больше влияние текущих данных.
      * @return array{forecast: int, average_relative_error:float } Ассоциативный массив с двумя ключами:
      *                                                             - 'forecast': Прогнозируемое значение на основе EMA.
