@@ -18,7 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(GenreSeeder::class);
+        $this->call([
+            GenreSeeder::class,
+            VisitorStatsSeeder::class,
+        ]);
 
         Author::factory(10)->has(
             Book::factory()
