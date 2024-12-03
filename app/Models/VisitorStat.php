@@ -53,7 +53,6 @@ final class VisitorStat extends Model
      */
     public static function calculateSimpleMovingAverage(array $data, int $period): array
     {
-        $data = [63, 95, 115, 164, 183, 221, 258];
         $forecast = []; // Массив для хранения прогнозных значений.
         $count = count($data); // Общее количество элементов в массиве данных.
 
@@ -67,12 +66,12 @@ final class VisitorStat extends Model
             $forecast[] = $sum / $period; // Добавляем среднее значение в прогнозный массив.
         }
 
-        $lastPrediction = round(end($forecast));
+        $lastPrediction = end($forecast);
 
         $predicted = $lastPrediction + (1 / $period) * ($data[$count - 1] - $data[$count - 2]);
 
         return [
-            'forecast' => $predicted, // Прогнозируемое значение.
+            'forecast' => round($predicted), // Прогнозируемое значение.
             'average_relative_error' => self::calculateAverageRelativeError($data, $forecast), // Средняя относительная ошибка.
         ];
     }

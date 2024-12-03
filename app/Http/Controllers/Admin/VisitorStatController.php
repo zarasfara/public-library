@@ -44,17 +44,15 @@ final class VisitorStatController extends Controller
         };
 
         // Реверсируем массивы для корректного отображения в графике
-        $reversedLabels = array_reverse($labels);
-        $reversedVisitorData = array_reverse($visitorData);
 
         // Добавляем предсказанное значение в массив данных и меток
-        $reversedVisitorData[] = $forecast['forecast'];
-        $reversedLabels[] = 'Предсказанное';
+        $visitorData[] = $forecast['forecast'];
+        $labels[] = 'Предсказанное';
 
         // Возвращаем данные в представление (график)
         return view('admin.pages.visitors.index', [
-            'labels' => json_encode($reversedLabels),
-            'visitorData' => json_encode($reversedVisitorData),
+            'labels' => json_encode($labels),
+            'visitorData' => json_encode($visitorData),
             'forecast' => $forecast['forecast'],
             'averageRelativeError' => $forecast['average_relative_error'],
             'predictionMethod' => $predictionMethod,
