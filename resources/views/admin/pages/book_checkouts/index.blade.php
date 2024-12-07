@@ -40,7 +40,7 @@
                                         aria-label="Platform(s): activate to sort column ascending">Дата возврата
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Engine version: activate to sort column ascending">Вернута?
+                                        aria-label="Engine version: activate to sort column ascending">Возвращена?
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                         aria-label="Engine version: activate to sort column ascending">Действия
@@ -91,7 +91,7 @@
                                     <th rowspan="1" colspan="1">Кто взял</th>
                                     <th rowspan="1" colspan="1">Название книги</th>
                                     <th rowspan="1" colspan="1">Дата возврата</th>
-                                    <th rowspan="1" colspan="1">Вернута?</th>
+                                    <th rowspan="1" colspan="1">Возвращена?</th>
                                 </tr>
                                 </tfoot>
                             </table>

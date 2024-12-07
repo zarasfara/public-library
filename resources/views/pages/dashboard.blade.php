@@ -72,14 +72,14 @@
             </form>
             <h2>Взятые книги</h2>
             <ul class="list-group">
-                @forelse(Auth::user()->reservedBooks as $book)
+                @forelse(\Auth::user()->reservedBooks as $book)
                     <li class="list-group-item">
                         <span>{{ $book->title }}</span>
                         <ol class="list-group-numbered">
                             @foreach($book->bookCheckouts as $bookCheckout)
                                 @if($bookCheckout->is_returned)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span class="badge bg-success">Вернута</span>
+                                        <span class="badge bg-success">Возвращена?</span>
                                     </li>
                                 @else
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
