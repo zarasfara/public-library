@@ -1,3 +1,4 @@
+@php use App\Models\VisitorStat; @endphp
 @extends('admin.layouts.base')
 
 @section('title', 'Главная')
@@ -8,13 +9,21 @@
         <div class="form-group row">
             <div class="col">
                 <label for="weeks">Период в неделях</label>
-                <input type="number" class="form-control" id="weeks" name="number_passed_weeks" placeholder="Напр., 4" min="1" value="4">
+                <input type="number" class="form-control" id="weeks" name="number_passed_weeks" placeholder="Напр., 4"
+                       min="1" value="4">
             </div>
             <div class="col">
                 <label for="visitor-stats">Метод предсказания</label>
                 <select class="custom-select form-control-border" id="visitor-stats" name="prediction_method">
-                    <option value="simple" {{ $predictionMethod === 'simple' ? 'selected' : '' }}>Простое скользящее среднее</option>
-                    <option value="exponential" {{ $predictionMethod === 'exponential' ? 'selected' : '' }}>Экспоненциальное скользящее среднее</option>
+                    <option
+                        value="simple" {{ $predictionMethod === VisitorStat::SIMPLE_PREDICTION_METHOD ? 'selected' : '' }}>
+                        Простое скользящее
+                        среднее
+                    </option>
+                    <option
+                        value="exponential" {{ $predictionMethod === VisitorStat::EXPONENTIAL_PREDICTION_METHOD ? 'selected' : '' }}>
+                        Экспоненциальное скользящее среднее
+                    </option>
                 </select>
             </div>
         </div>
@@ -36,24 +45,23 @@
         const visitorData = {!! $visitorData !!};
 
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
                     label: 'Количество посетителей',
                     data: visitorData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.0)',
+                    pointStyle: 'circle',
+                    pointRadius: 8,
+                    pointHoverRadius: 8
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                responsive: true,
             }
         });
+
     </script>
 @endpush
