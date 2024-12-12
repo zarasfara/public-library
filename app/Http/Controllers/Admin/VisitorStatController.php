@@ -45,8 +45,6 @@ final class VisitorStatController extends Controller
             default => VisitorStat::calculateSimpleMovingAverage($visitorData, self::SIMPLE_MOVING_AVERAGE_PERIOD),
         };
 
-        // Реверсируем массивы для корректного отображения в графике
-
         // Добавляем предсказанное значение в массив данных и меток
         $visitorData[] = $forecast['forecast'];
         $labels[] = 'Предсказанное';

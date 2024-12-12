@@ -46,9 +46,17 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{route('visitors.stats')}}" class="nav-link">
-                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <i class="fa fa-users" aria-hidden="true"></i>
                         <p>
                             Прогнозы посещений
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('meta-tags.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        <p>
+                            Продвижение сайта
                         </p>
                     </a>
                 </li>

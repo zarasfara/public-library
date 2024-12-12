@@ -59,7 +59,7 @@ final class AuthorController extends Controller
             $data = $request->validated();
             $this->authorService->store($data);
 
-            return redirect()->route('authors.index')->with('status', __('messages.author_created'));
+            return redirect()->route('authors.index')->with('success', __('messages.author_created'));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
 
@@ -90,7 +90,7 @@ final class AuthorController extends Controller
         $data = $request->validated();
 
         if ($this->authorService->update($author, $data)) {
-            return redirect()->route('authors.index')->with('status', __('messages.author_updated'));
+            return redirect()->route('authors.index')->with('success', __('messages.author_updated'));
         }
 
         return redirect()->route('authors.edit', $author)->withErrors(['error' => __('messages.author_update_failed')]);
@@ -107,7 +107,7 @@ final class AuthorController extends Controller
         try {
             $this->authorService->delete($author);
 
-            return redirect()->route('authors.index')->with('status', __('messages.author_deleted'));
+            return redirect()->route('authors.index')->with('success', __('messages.author_deleted'));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
 

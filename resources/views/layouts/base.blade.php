@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ $meta->description }}">
-    <meta name="keywords" content="{{ $meta->keywords }}">
-    <meta name="robots" content="{{ $meta->robots }}">
 
-    <title>{{$meta->title}} - @yield('title')</title>
+    @isset($meta)
+        <meta name="description" content="{{ $meta->description }}">
+        <meta name="keywords" content="{{ $meta->keywords }}">
+        <meta name="robots" content="{{ $meta->robots }}">
+    @endisset
+
+    <title>{{$meta->title ?? "Application"}} - @yield('title')</title>
 
     <link rel="stylesheet" href="{{asset('assets/client/css/bootstrap-5.css')}}">
     @stack('style sheets')
