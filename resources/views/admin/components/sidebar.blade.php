@@ -60,6 +60,15 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('genres.index')}}" class="nav-link">
+                        <i class="fa fa-bookmark" aria-hidden="true"></i>
+                        <p>
+                            Жанры
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

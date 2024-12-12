@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookCheckoutController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
+use App\Http\Controllers\Admin\GenreController;
 use App\Http\Controllers\Admin\MetaTagController;
 use App\Http\Controllers\Admin\VisitorStatController;
 use App\Http\Controllers\AuthController;
@@ -63,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', function () {
                 return view('admin.pages.index');
             })->name('admin.index');
+
+            Route::resource('genres', GenreController::class);
 
             Route::resource('meta-tags', MetaTagController::class)
                 ->only('index', 'update');
