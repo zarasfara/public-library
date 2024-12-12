@@ -59,7 +59,7 @@ final class BookController extends Controller
 
         $this->bookService->store($data, $image);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Книга успешно добавлена');
     }
 
     /**

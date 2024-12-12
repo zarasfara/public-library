@@ -44,8 +44,8 @@ final class VisitorStat extends Model
      * скользящего среднего за заданный период, а также вычисляет среднюю относительную
      * ошибку (average_relative_error) между фактическими и прогнозными данными.
      *
-     * @param array $data Массив фактических данных.
-     * @param int $period Период для расчета скользящего среднего (количество элементов).
+     * @param  array  $data  Массив фактических данных.
+     * @param  int  $period  Период для расчета скользящего среднего (количество элементов).
      * @return array{'forecast': int, "average_relative_error": float} Ассоциативный массив с двумя ключами:
      *                                                                 - 'forecast': Предсказанное значение на основе скользящего среднего.
      *                                                                 - 'average_relative_error': Средняя относительная ошибка между
@@ -84,8 +84,8 @@ final class VisitorStat extends Model
      * с использованием коэффициента сглаживания (alpha).
      * Также метод вычисляет среднюю относительную ошибку (average_relative_error).
      *
-     * @param array $data Массив фактических данных.
-     * @param float $alpha Коэффициент сглаживания (от 0 до 1), по умолчанию 0.5.
+     * @param  array  $data  Массив фактических данных.
+     * @param  float  $alpha  Коэффициент сглаживания (от 0 до 1), по умолчанию 0.5.
      *                        Чем выше alpha, тем больше влияние текущих данных.
      * @return array{forecast: int, average_relative_error:float } Ассоциативный массив с двумя ключами:
      *                                                             - 'forecast': Прогнозируемое значение на основе EMA.

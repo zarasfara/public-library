@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Enums\RoleEnum;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\MetaTag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -44,5 +45,13 @@ class DatabaseSeeder extends Seeder
         $this->call(BookGenreSeeder::class);
 
         $this->call(VisitorStatsSeeder::class);
+
+        MetaTag::create([
+            'title' => 'Онлайн библиотека | Читайте книги онлайн',
+            'description' => 'Добро пожаловать в нашу онлайн библиотеку. Здесь вы найдете тысячи книг, от классики до современной литературы, для чтения и скачивания.',
+            'keywords' => 'онлайн библиотека, книги онлайн, читать книги, электронные книги, скачать книги',
+            'robots' => 'index, follow',
+        ]);
+
     }
 }

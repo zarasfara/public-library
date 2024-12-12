@@ -15,6 +15,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('assets/admin/css/adminlte.min.css')}}">
 
+    <link rel="stylesheet" href="{{asset('assets/admin/toastr/toastr.css')}}">
+
     @stack('admin.styles')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -63,11 +65,6 @@
         <strong>Всем привет, я футер &copy; 2014-2021.</strong> Мои права защищены.
     </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
@@ -80,6 +77,22 @@
 <!-- AdminLTE App -->
 <script src="{{asset('assets/admin/js/adminlte.min.js')}}"></script>
 <script src="{{asset('assets/admin/select2/js/select2.min.js')}}"></script>
+
+<script src="{{asset('assets/admin/toastr/toastr.min.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "timeOut": "5000"
+        };
+        @if (session('success'))
+            toastr["success"]("{{ session('success') }}");
+        @endif
+    });
+</script>
 
 @stack('admin.scripts')
 </body>
