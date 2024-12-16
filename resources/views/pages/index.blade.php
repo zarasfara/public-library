@@ -44,11 +44,4 @@
 
     {{ $books->appends(request()->except('page'))->links() }}
 
-    @if(session('success'))
-        <x-toasts.success-toast :message="session('success')" />
-    @endif
 @endsection
-
-@push('scripts')
-    <script src="{{asset('assets/client/js/index.js')}}"></script>
-@endpush

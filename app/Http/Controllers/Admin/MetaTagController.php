@@ -60,7 +60,7 @@ final class MetaTagController extends Controller
 
         $metaTag->update($data);
 
-        return redirect(route('meta-tags.index'))->with('success', 'Мета тег обновлен');
+        return redirect(route('meta-tags.index'))->with('success', __('messages.metatag_updated'));
     }
 
     /**

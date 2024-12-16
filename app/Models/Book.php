@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value) Найти книгу по заголовку.
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value) Найти книгу по дате последнего обновления.
  *
- * @property-read \App\Models\BookCheckout|null $bookCheckouts
+ * @property-read \App\Models\BookCheckout[]|null $bookCheckouts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Genre> $genres
  * @property-read int|null $book_checkouts_count
  * @property-read \App\Models\User|null $user
@@ -88,13 +88,6 @@ final class Book extends Model
             'id',
             'book_id'
         );
-    }
-
-    public function isCheckedOutByUser(User $user): bool
-    {
-        return $this->bookCheckouts->contains(function ($checkout) use ($user) {
-            return $checkout->user_id == $user->id && ! $checkout->is_returned;
-        });
     }
 
     /**

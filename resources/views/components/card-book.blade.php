@@ -12,11 +12,10 @@
         <a href="{{route('books.details', $book)}}" class="card-title">{{$book->title}}</a>
         <p class="card-text">Автор: {{$book->author->getFullName()}}</p>
         <p class="card-text">Краткое описание: {{Str::words($book->description, 10)}}</p>
-        @if($book->isAvailable() && (!Auth::check() || !$book->isCheckedOutByUser(Auth::user())))
+        @if($book->isAvailable() && (!Auth::check() || !Auth::user()->hasCheckedOutBook($book)))
             <form action="{{ route('checkout.book', $book->id) }}" method="post">
                 @csrf
-                <button class="btn btn-primary mt-auto align-self-start" type="submit" id="liveToastBtn">Оформить
-                </button>
+                <button class="btn btn-success mt-auto align-self-start" type="submit">Оформить</button>
             </form>
         @else
             <button class="btn btn-secondary mt-auto align-self-start" disabled>Не доступно</button>

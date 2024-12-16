@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Interfaces;
 
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 
@@ -16,5 +17,5 @@ interface BookServiceInterface
 
     public function destroy(Book $book): void;
 
-    public function checkOutBook(int $userId, Book $book): bool;
+    public function checkOutBook(User $userId, Book $book): bool;
 }

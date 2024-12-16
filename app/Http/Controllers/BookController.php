@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Services\Interfaces\BookServiceInterface;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 final class BookController extends Controller
 {
@@ -23,12 +24,14 @@ final class BookController extends Controller
      */
     public function checkoutBook(Book $book): RedirectResponse
     {
-        $success = $this->bookService->checkoutBook(\Auth::id(), $book);
+        $user = Auth::user();
+
+        $success = $this->bookService->checkOutBook($user, $book);
 
         if ($success) {
             return redirect()->back()->with('success', __('messages.book_checkout_success'));
         } else {
-            return redirect()->back()->with('error', 'something went wrong');
+            return redirect()->back()->with('error', 'Не удалось оформить книгу');
         }
     }
 }

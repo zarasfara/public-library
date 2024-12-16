@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Book;
+use App\Models\User;
 use App\Repositories\Interfaces\BookRepositoryInterface;
 use App\Services\Interfaces\BookServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -80,12 +81,16 @@ final readonly class BookService implements BookServiceInterface
     /**
      * Выполняет аренду книги пользователем.
      *
-     * @param  int  $userId  Идентификатор пользователя.
+     * @param  User  $user  Идентификатор пользователя.
      * @param  Book  $book  Книга для аренды.
      */
-    public function checkOutBook(int $userId, Book $book): bool
+    public function checkOutBook(User $user, Book $book): bool
     {
-        return $this->bookRepository->checkoutBook($userId, $book);
+        if ($user->hasCheckedOutBook($book)) {
+            return false;
+        }
+
+        return $this->bookRepository->checkoutBook($user->id, $book);
     }
 
     private function handleUploadedImage(UploadedFile $image): string
