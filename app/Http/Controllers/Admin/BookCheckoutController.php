@@ -37,6 +37,6 @@ final class BookCheckoutController extends Controller
             'is_returned' => true,
         ]);
 
-        return redirect()->back()->with('success', __('book_returned'));
+        return redirect()->back()->with('success', __('messages.book_returned'));
     }
 }

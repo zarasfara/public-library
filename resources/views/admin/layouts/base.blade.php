@@ -15,7 +15,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('assets/admin/css/adminlte.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('assets/admin/toastr/toastr.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/common/toastr/toastr.min.css')}}">
 
     @stack('admin.styles')
 </head>
@@ -78,7 +78,7 @@
 <script src="{{asset('assets/admin/js/adminlte.min.js')}}"></script>
 <script src="{{asset('assets/admin/select2/js/select2.min.js')}}"></script>
 
-<script src="{{asset('assets/admin/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('assets/common/toastr/toastr.min.js')}}"></script>
 
 <script>
     $(document).ready(function () {

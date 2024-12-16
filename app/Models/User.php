@@ -131,6 +131,13 @@ final class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    public function hasCheckedOutBook(Book $book): bool
+    {
+        return $this->reservedBooks->contains(function ($reservedBook) use ($book) {
+            return $reservedBook->id === $book->id;
+        });
+    }
+
     /**
      * Является ли пользователь сотрудником
      */

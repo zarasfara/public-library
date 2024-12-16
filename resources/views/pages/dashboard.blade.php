@@ -70,38 +70,45 @@
                 <hr class="my-4">
                 <button class="w-100 btn btn-primary btn-lg" type="submit">Сохранить</button>
             </form>
-            <h2>Взятые книги</h2>
-            <ul class="list-group">
-                @forelse(\Auth::user()->reservedBooks as $book)
-                    <li class="list-group-item">
-                        <span>{{ $book->title }}</span>
-                        <ol class="list-group-numbered">
-                            @foreach($book->bookCheckouts as $bookCheckout)
-                                @if($bookCheckout->is_returned)
+            <h2 class="my-4">Взятые книги</h2>
+
+            @if(\Auth::user()->reservedBooks->isEmpty())
+                <div class="alert alert-warning text-center" role="alert">
+                    <strong>Вы ничего не оформляли.</strong>
+                </div>
+            @else
+                <ul class="list-group">
+                    @foreach(\Auth::user()->reservedBooks as $book)
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="mb-0">{{ $book->title }}</h5>
+                            </div>
+                            <ul class="list-group">
+                                @foreach($book->bookCheckouts as $bookCheckout)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span class="badge bg-success">Возвращена?</span>
-                                    </li>
-                                @else
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span
-                                            class="badge {{ $bookCheckout->isOverdue() ? 'bg-danger' : 'bg-secondary' }}">
-                                        @if($bookCheckout->isOverdue())
-                                            Просрочено
+                                        @if($bookCheckout->is_returned)
+                                            <span class="text-success fw-bold">Возвращена</span>
                                         @else
-                                            Вернуть к {{ $bookCheckout->return_date->format('d.m.Y')}}
+                                            <span
+                                                class="{{ $bookCheckout->isOverdue() ? 'text-danger fw-bold' : 'text-secondary' }}">
+                                                @if($bookCheckout->isOverdue())
+                                                    <i class="fas fa-exclamation-circle"></i> Просрочено
+                                                @else
+                                                    Вернуть к {{ $bookCheckout->return_date->format('d.m.Y') }}
+                                                @endif
+                                            </span>
+                                            <span class="badge bg-{{ $bookCheckout->isOverdue() ? 'danger' : 'info' }}">
+                                                {{ $bookCheckout->return_date->diffForHumans() }}
+                                            </span>
                                         @endif
-                                        </span>
                                     </li>
-                                @endif
-                            @endforeach
-                        </ol>
-                    </li>
-                @empty
-                    <div class="alert alert-danger" role="alert">
-                        Вы ничего не оформляли
-                    </div>
-                @endforelse
-            </ul>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+
         </div>
     </div>
 @endsection

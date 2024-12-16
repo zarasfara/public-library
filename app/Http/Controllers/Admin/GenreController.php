@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -36,7 +38,7 @@ final class GenreController extends Controller
 
         Genre::create($data);
 
-        return redirect(route('genres.index'))->with('success', 'Жанр успешно создан.');
+        return redirect(route('genres.index'))->with('success', __('messages.genre_saved'));
     }
 
     /**
@@ -61,12 +63,12 @@ final class GenreController extends Controller
     public function update(Request $request, Genre $genre)
     {
         $data = $request->validate([
-            'name' => 'required|unique:genres,name,' . $genre->id,
+            'name' => 'required|unique:genres,name,'.$genre->id,
         ]);
 
         $genre->update($data);
 
-        return redirect(route('genres.index'))->with('success', 'Жанр успешно обновлен');
+        return redirect(route('genres.index'))->with('success', __('messages.genre_updated'));
     }
 
     /**
@@ -75,7 +77,7 @@ final class GenreController extends Controller
     public function destroy(Genre $genre): RedirectResponse
     {
         if ($genre->delete()) {
-            return redirect()->back()->with('success', 'Жанр успешно удален');
+            return redirect()->back()->with('success', __('messages.genre_deleted'));
         }
 
         return redirect()->back()->with('error', 'Жанр не удален');

@@ -89,7 +89,7 @@ final class AuthController extends Controller
         }
 
         if ($user->update($data)) {
-            return redirect()->back()->with('success', 'Profile updated successfully.');
+            return redirect()->back()->with('success', __('messages.profile_updated'));
         } else {
             return redirect()->back()->with('error', 'Failed to update profile.');
         }
